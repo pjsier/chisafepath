@@ -1,0 +1,17 @@
+development:
+  adapter: postgis
+  encoding: unicode
+  database: chisafepath_development
+  pool: 5
+  username: chisafepath
+  password: password
+  min_messages: WARNING
+
+test:
+  adapter: postgis
+  encoding: unicode
+  database: chisafepath_test
+  pool: 5
+  username: chisafepath
+  password: password
+  min_messages: WARNING
