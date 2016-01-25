@@ -4,7 +4,7 @@
     %meta{ charset: "utf-8" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" }
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
-    %title ChiSafePath
+    %title Chi Safe Path
     = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", media: "all"
     = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css", media: "all"
     = stylesheet_link_tag "application", media: "all"
@@ -15,11 +15,11 @@
       .container
         %ul{class: "nav navbar-nav"}
           %li
-            %a{href: "#"} Home
+            %a{href: "/"} Home
           %li
-            %a{href: "#"} Map
+            %a{href: "/map"} Map
           %li
-            %a{href: "#"} About
+            %a{href: "/about"} About
     = yield
     = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"
     = javascript_include_tag "application"

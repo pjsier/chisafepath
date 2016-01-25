@@ -3,7 +3,7 @@ $(':file').change(function(){
 
   EXIF.getData(file, function() {
     if (EXIF.getTag(file, "GPSLatitude") === undefined) {
-      $('#geo_warn').text("Image is not geo-tagged, please enter the location through one of the following fields");
+      $('#geo-warn').text("Image is not geo-tagged, please enter the location through one of the following fields");
     }
     else {
       console.log("geotags");
@@ -15,7 +15,7 @@ $(':file').change(function(){
 
 $('#uploadForm').submit(function(e) {
   e.preventDefault();
-  document.getElementById('geo-submit').innerHTML = "<img src='/stylesheets/images/throbber.gif' />";
+  document.getElementById('geo-submit').innerHTML = "<img src='assets/throbber.gif' />";
   var checkArr = ['broke_box', 'curb_box', 'construction_box'];
   var issueArr = [];
   checkArr.forEach(function(box) {
@@ -78,6 +78,7 @@ $('#uploadForm').submit(function(e) {
         "longitude": lon_val,
         "issues": issueArr
     });
+    /*
     $.ajax({
       type: "POST",
       url: '/geopost',
@@ -88,13 +89,15 @@ $('#uploadForm').submit(function(e) {
       },
       error: function (e) {
         document.getElementById('geo-submit').innerHTML = "Submit";
-        document.getElementById("submit_warn").innerHTML = "<b style='color:red'>Error occurred, please check your connection and try again</b><br><br>";
+        document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Error occurred, please check your connection and try again</b><br><br>";
       },
       contentType: 'application/json'
     });
+    */
+    console.log("Placeholder for submit!");
   }
   else {
-    document.getElementById("submit_warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
+    document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
     document.getElementById('geo-submit').innerHTML = "Submit";
   }
 });
@@ -103,11 +106,11 @@ $('#uploadForm').submit(function(e) {
 function getLocation() {
   if (navigator.geolocation)
   {
-    document.getElementById('loc-button').innerHTML = "<img src='/stylesheets/images/throbber.gif' />";
+    document.getElementById('loc-button').innerHTML = "<img src='assets/throbber.gif' />";
     navigator.geolocation.getCurrentPosition(bindPosition);
   }
   else {
-    document.getElementById('geo_button_res').innerHTML = "Geolocation is not supported by this browser";
+    document.getElementById('geo-button-res').innerHTML = "Geolocation is not supported by this browser";
   }
 };
 
@@ -117,7 +120,7 @@ function bindPosition(position) {
   document.getElementById('lat_hide').value = lat;
   document.getElementById('lon_hide').value = lon;
   document.getElementById('loc-button').innerHTML = "Get Location";
-  document.getElementById('geo_button_res').innerHTML = "Success!";
+  document.getElementById('geo-button-res').innerHTML = "Success!";
 };
 
 var mapDiv = document.getElementById("geocode");
