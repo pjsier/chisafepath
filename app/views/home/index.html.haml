@@ -1,6 +1,6 @@
 %div{class: "container main-page"}
   %div{class: "vertical-center"}
-    %img{class: "text-center img-responsive", alt: "ChiSafePath logo", src: "images/csp_logo_9.svg"}
+    = image_tag  "csp_logo_9.svg", :class => "text-center img-responsive", :alt => "ChiSafePath logo"
   %br
   %div{class: "vertical-center"}
     %form{class: "slim-center", id: "uploadForm", name: "uploadForm"}
@@ -22,14 +22,16 @@
       %input{type: "text", style: "display:none", id: "lon_hide"}
       %div.form-group
         %h3 Issues
-        %div.checkbox
+        .checkbox
           %label
             %input{type: "checkbox", id: "broke_box", name: "broke", value: "Sidewalk broken"} Sidewalk broken
+        .checkbox
           %label
             %input{type: "checkbox", id: "curb_box", name: "curb", value: "No curb cut"} No curb cut
+        .checkbox
           %label
             %input{type: "checkbox", id: "construction_box", name: "construction", value: "Unusable due to construction"} Unusable due to construction
-        %div.form-inline
+        .form-inline
           %input{type: "text", class: "form-control", id: "other_issue", placeholder: "Other issues..."}
       %button{id: "geo-submit", type: "submit", class: "btn btn-default"} Submit
       %span#submit-warn

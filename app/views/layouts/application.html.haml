@@ -10,13 +10,16 @@
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
     = javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
-    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"
-    = javascript_include_tag "application"
   %body
     %nav{ class: "navbar navbar-default navbar-fixed-top"}
-      #container
+      .container
         %ul{class: "nav navbar-nav"}
-          %li Home
-          %li Map
-          %li About
+          %li
+            %a{href: "#"} Home
+          %li
+            %a{href: "#"} Map
+          %li
+            %a{href: "#"} About
     = yield
+    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"
+    = javascript_include_tag "application"

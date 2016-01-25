@@ -11,7 +11,7 @@ $(':file').change(function(){
   });
 });
 
-var ospry = new Ospry('pk-test-fd9aw1cgfeei0u7rivobfggf');
+//var ospry = new Ospry('pk-test-fd9aw1cgfeei0u7rivobfggf');
 
 $('#uploadForm').submit(function(e) {
   e.preventDefault();
@@ -40,7 +40,7 @@ $('#uploadForm').submit(function(e) {
       lon = EXIF.getTag(file, "GPSLongitude"),
       lonref = EXIF.getTag(file, "GPSLongitudeRef");
 
-    // Add description information and other fields as well to post when added
+    /* Add description information and other fields as well to post when added
     ospry.up({
       form: this,
       imageReady: function(err, metadata, i) {
@@ -66,7 +66,7 @@ $('#uploadForm').submit(function(e) {
           });
         }
       },
-    });
+    });*/
   }
   else if (document.getElementById('lat_hide').value != "") {
     var lat_val = document.getElementById('lat_hide').value;
@@ -120,45 +120,50 @@ function bindPosition(position) {
   document.getElementById('geo_button_res').innerHTML = "Success!";
 };
 
-var map = L.map('geocode', {zoomControl: false});
-var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-var osm = new L.TileLayer(osmUrl, {minZoom: 9, maxZoom: 16, attribution: osmAttrib});
-map.setView(new L.LatLng(41.8811008, -87.6291208),9);
-map.addLayer(osm);
-map.dragging.disable();
-map.touchZoom.disable();
-map.doubleClickZoom.disable();
-map.scrollWheelZoom.disable();
+var mapDiv = document.getElementById("geocode");
+if (mapDiv !== null) {
+  $(document).ready(function() {
+    var map = L.map('geocode', {zoomControl: false});
+    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+    var osm = new L.TileLayer(osmUrl, {minZoom: 9, maxZoom: 16, attribution: osmAttrib});
+    map.setView(new L.LatLng(41.8811008, -87.6291208),9);
+    map.addLayer(osm);
+    map.dragging.disable();
+    map.touchZoom.disable();
+    map.doubleClickZoom.disable();
+    map.scrollWheelZoom.disable();
 
-// Set options for Nominatim geocoder
-var n_options = {
-  geocodingQueryParams: {
-    "viewbox": [
-      "-88.021160",
-      "42.059420",
-      "-87.450328",
-      "41.561013"
-    ],
-    "bounded": 1,
-  }
-};
+    // Set options for Nominatim geocoder
+    var n_options = {
+      geocodingQueryParams: {
+        "viewbox": [
+          "-88.021160",
+          "42.059420",
+          "-87.450328",
+          "41.561013"
+        ],
+        "bounded": 1,
+      }
+    };
 
-// Set options for geocoder control
-var options = {
-  collapsed: false,
-  geocoder: new L.Control.Geocoder.Nominatim(n_options)
-};
+    // Set options for geocoder control
+    var options = {
+      collapsed: false,
+      geocoder: new L.Control.Geocoder.Nominatim(n_options)
+    };
 
-var geocoder = L.Control.geocoder(options).addTo(map);
+    var geocoder = L.Control.geocoder(options).addTo(map);
 
-// Callback for action when geocoder fires
-geocoder.markGeocode = function(result) {
-  map.setView(result.center, 16);
-  var lat = result.center.lat;
-  var lon = result.center.lng;
-  document.getElementById('lat_hide').value = lat;
-  document.getElementById('lon_hide').value = lon;
-  hasGeo = true;
-  L.marker([lat, lon]).addTo(map);
-};
+    // Callback for action when geocoder fires
+    geocoder.markGeocode = function(result) {
+      map.setView(result.center, 16);
+      var lat = result.center.lat;
+      var lon = result.center.lng;
+      document.getElementById('lat_hide').value = lat;
+      document.getElementById('lon_hide').value = lon;
+      hasGeo = true;
+      L.marker([lat, lon]).addTo(map);
+    };
+  });
+}
