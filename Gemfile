@@ -16,6 +16,7 @@ gem "turbolinks"
 gem "activeadmin", github: "activeadmin"
 gem "sidekiq-cron", "~> 0.4.0"
 gem "formtastic"
+gem "rgeo"
 gem 'activerecord-postgis-adapter'
 gem "bower-rails", "~> 0.10.0"
 

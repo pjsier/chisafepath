@@ -250,6 +250,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (= 4.2.5)
+  rgeo
   sdoc (~> 0.4.0)
   sidekiq
   sidekiq-cron (~> 0.4.0)
