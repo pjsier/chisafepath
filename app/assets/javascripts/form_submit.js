@@ -72,11 +72,13 @@ $('#uploadForm').submit(function(e) {
     var lat_val = document.getElementById('lat_hide').value;
     var lon_val = document.getElementById('lon_hide').value;
     var geo_data = JSON.stringify({
-        "img_id": "n/a",
-        "img_url": "n/a",
-        "latitude": lat_val,
-        "longitude": lon_val,
-        "issues": issueArr
+        "issue": {
+          "img_id": "n/a",
+          "img_url": "n/a",
+          "lat": lat_val,
+          "long": lon_val,
+          "issues": issueArr
+        }
     });
     /*
     $.ajax({
