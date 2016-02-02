@@ -94,7 +94,16 @@ $('#uploadForm').submit(function(e) {
       contentType: 'application/json'
     });
     */
-    console.log("Placeholder for submit!");
+    $.ajax({
+      type: "POST",
+      url: '/issue',
+      data: geo_data,
+      success: function (response) {
+        console.log(response);
+        window.location.href = '/submitted';
+      },
+      contentType: 'application/json'
+    });
   }
   else {
     document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
