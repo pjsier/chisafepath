@@ -10,17 +10,15 @@ gem 'unicorn'
 gem 'unicorn-rails'
 gem "carrierwave"
 gem "haml-rails"
-gem "sidekiq"
-gem "sidekiq-failures"
 gem "turbolinks"
 gem "activeadmin", github: "activeadmin"
-gem "sidekiq-cron", "~> 0.4.0"
 gem "formtastic"
 gem "rgeo"
 gem 'activerecord-postgis-adapter'
 gem "leaflet-rails"
 gem "twitter-bootstrap-rails"
 gem 'twitter-typeahead-rails'
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'byebug'
