@@ -11,5 +11,7 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require leaflet
+ *= require_tree ./lib
  *= require_self
  */

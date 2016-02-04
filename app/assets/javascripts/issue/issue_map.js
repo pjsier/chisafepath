@@ -8,32 +8,6 @@ if (mapDiv !== null) {
     map.setView(new L.LatLng(41.8811008, -87.6291208),10);
     map.addLayer(osm);
 
-    var CustomControl = L.Control.extend({
-      options: {
-        position: 'topright'
-        //control position - allowed: 'topleft', 'topright', 'bottomleft', 'bottomright'
-      },
-      onAdd: function (map) {
-        var container = L.DomUtil.create('button', 'leaflet-custom-button');
-        container.innerHTML = "Plan Route";
-        container.onclick = function(){
-          if (container.innerHTML === "Plan Route") {
-            map.removeControl(geocoder);
-            router.addTo(map);
-            container.innerHTML = "Search";
-          }
-          else {
-            map.removeControl(router);
-            geocoder.addTo(map);
-            container.innerHTML = "Plan Route";
-          }
-        };
-        return container;
-      },
-    });
-
-    map.addControl(new CustomControl());
-
     // Set options for Nominatim geocoder
     var n_options = {
       geocodingQueryParams: {
@@ -54,8 +28,6 @@ if (mapDiv !== null) {
     };
 
     var geocoder = L.Control.geocoder(options).addTo(map);
-
-    var router = L.Routing.control({geocoder: L.Control.Geocoder.nominatim()});
 
     // Create container layer group to allow for deleting previously added layers
     var all_markers = L.layerGroup().addTo(map);
@@ -82,7 +54,7 @@ if (mapDiv !== null) {
         });
         all_markers.addLayer(gjLayer);
       };
-
+    /*
       $.ajax({
         type: "POST",
         url: "/mapdata/" + lat + "/" + lon,
@@ -91,7 +63,7 @@ if (mapDiv !== null) {
         },
         contentType: 'application/json'
       });
-    /* Time query test
+    Time query test
       $.ajax({
         type: "POST",
         url: "/timetest",

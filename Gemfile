@@ -18,7 +18,8 @@ gem "sidekiq-cron", "~> 0.4.0"
 gem "formtastic"
 gem "rgeo"
 gem 'activerecord-postgis-adapter'
-gem "bower-rails", "~> 0.10.0"
+gem "leaflet-rails"
+gem "twitter-bootstrap-rails"
 
 group :development, :test do
   gem 'byebug'

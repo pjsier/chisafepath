@@ -5,11 +5,8 @@
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" }
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
     %title Chi Safe Path
-    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", media: "all"
-    = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css", media: "all"
     = stylesheet_link_tag "application", media: "all"
-    = javascript_include_tag "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
-    = javascript_include_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+    = javascript_include_tag "application"
   %body
     %nav{ class: "navbar navbar-default navbar-fixed-top"}
       .container
@@ -21,5 +18,4 @@
           %li
             %a{href: "/about"} About
     = yield
-    = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"
-    = javascript_include_tag "application"
+    = javascript_include_tag "issue"
