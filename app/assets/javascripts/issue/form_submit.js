@@ -1,3 +1,17 @@
+/* Create main object, consider other options */
+
+var issue_obj = {
+  issue: {
+    img_id: "",
+    img_url: "",
+    lat: null,
+    long: null,
+    issues: []
+  }
+};
+
+/* Front-end check on EXIF data if image uploaded */
+
 $(':file').change(function(){
   var file = this.files[0];
 
@@ -11,80 +25,37 @@ $(':file').change(function(){
   });
 });
 
-//var ospry = new Ospry('pk-test-fd9aw1cgfeei0u7rivobfggf');
+/* Form submit main function */
 
 $('#uploadForm').submit(function(e) {
   e.preventDefault();
   document.getElementById('geo-submit').innerHTML = "<img src='assets/throbber.gif' />";
-  var checkArr = ['broke_box', 'curb_box', 'construction_box'];
-  var issueArr = [];
-  checkArr.forEach(function(box) {
-    box_el = document.getElementById(box);
-    if (box_el.checked === true) {
-      issueArr.push(box_el.value);
-    }
-  });
+  var checked_items = [].slice.call(document.querySelectorAll("input[type='checkbox']:checked"));
+  checked_items.map(function(check) {issue_obj.issue.issues.push(check.value)});
 
   if (document.getElementById('other_issue').value.length != 0) {
-    issueArr.push(document.getElementById('other_issue').value);
+    issue_obj.issue.issues.push(document.getElementById('other_issue').value);
   }
 
-  if (issueArr.length === 0) {
-    issueArr.push("Sidewalk hazard");
+  if (issue_obj.issue.issues.length === 0) {
+    issue_obj.issue.issues.push("Sidewalk hazard");
   }
 
   if (document.getElementById("userPhoto").value != "") {
     var file = $(':file').prop('files')[0];
     var lat = EXIF.getTag(file, "GPSLatitude"),
       latref = EXIF.getTag(file, "GPSLatitudeRef"),
-      lon = EXIF.getTag(file, "GPSLongitude"),
-      lonref = EXIF.getTag(file, "GPSLongitudeRef");
+      long = EXIF.getTag(file, "GPSLongitude"),
+      longref = EXIF.getTag(file, "GPSLongitudeRef");
 
-    /* Add description information and other fields as well to post when added
-    ospry.up({
-      form: this,
-      imageReady: function(err, metadata, i) {
-        if (err === null) {
-          var geotag_data = JSON.stringify({
-              "img_id": metadata.id,
-              "img_url": metadata.url,
-              "latitude": lat,
-              "longitude": lon,
-              "latitude_ref": latref,
-              "longitude_ref": lonref,
-              "issues": issueArr
-          });
-          $.ajax({
-            type: "POST",
-            url: '/photo',
-            data: geotag_data,
-            success: function (response) {
-              console.log(response);
-              window.location.href = '/submitted';
-            },
-            contentType: 'application/json'
-          });
-        }
-      },
-    });*/
+    // Eventually post to image service or check w/CarrierWave
   }
-  else if (document.getElementById('lat_hide').value != "") {
-    var lat_val = document.getElementById('lat_hide').value;
-    var lon_val = document.getElementById('lon_hide').value;
-    var geo_data = JSON.stringify({
-        "issue": {
-          "img_id": "n/a",
-          "img_url": "n/a",
-          "lat": lat_val,
-          "long": lon_val,
-          "issues": issueArr
-        }
-    });
-    /*
+  else if (issue_obj.issue.lat !== null) {
     $.ajax({
       type: "POST",
-      url: '/geopost',
-      data: geo_data,
+      url: '/issue',
+      data: JSON.stringify(issue_obj),
+      dataType: "json",
       success: function (response) {
         console.log(response);
         window.location.href = '/submitted';
@@ -95,17 +66,6 @@ $('#uploadForm').submit(function(e) {
       },
       contentType: 'application/json'
     });
-    */
-    $.ajax({
-      type: "POST",
-      url: '/issue',
-      data: geo_data,
-      success: function (response) {
-        console.log(response);
-        window.location.href = '/submitted';
-      },
-      contentType: 'application/json'
-    });
   }
   else {
     document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
@@ -113,71 +73,126 @@ $('#uploadForm').submit(function(e) {
   }
 });
 
-//add button that calls this.
 function getLocation() {
   if (navigator.geolocation)
   {
     document.getElementById('loc-button').innerHTML = "<img src='assets/throbber.gif' />";
-    navigator.geolocation.getCurrentPosition(bindPosition);
+    navigator.geolocation.getCurrentPosition(function(position) {
+      issue_obj.issue.lat = position.coords.latitude;
+      issue_obj.issue.long = position.coords.longitude;
+      document.getElementById('loc-button').innerHTML = "Get Location";
+      document.getElementById('geo-button-res').innerHTML = "Success!";
+    });
   }
   else {
     document.getElementById('geo-button-res').innerHTML = "Geolocation is not supported by this browser";
   }
+}
+
+var API_RATE_LIMIT = 500;
+var inputElement = document.getElementById("addr-search");
+var mapzen_key = "search-F2Xk0nk";
+var auto_url = 'https://search.mapzen.com/v1/autocomplete';
+var search_url = 'https://search.mapzen.com/v1/search';
+var addr_matches = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  local: []
+});
+
+$('.typeahead').typeahead({
+  highlight: true
+},
+{
+  name: 'addresses',
+  displayKey: 'name',
+  source: addr_matches
+});
+
+function searchAddress(submitAddr) {
+  var params = {
+    api_key: mapzen_key,
+    "focus.point.lon": -87.63,
+    "focus.point.lat": 41.88,
+    text: inputElement.value
+  };
+  if (inputElement.value.length > 0) {
+    callMapzen(params, auto_url);
+  }
+  else if (inputElement.value.length > 0) {
+    callMapzen(params, search_url);
+  }
 };
 
-function bindPosition(position) {
-  lat = position.coords.latitude;
-  lon = position.coords.longitude;
-  document.getElementById('lat_hide').value = lat;
-  document.getElementById('lon_hide').value = lon;
-  document.getElementById('loc-button').innerHTML = "Get Location";
-  document.getElementById('geo-button-res').innerHTML = "Success!";
-};
-
-var mapDiv = document.getElementById("geocode");
-if (mapDiv !== null) {
-  $(document).ready(function() {
-    var map = L.map('geocode', {zoomControl: false});
-    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-    var osm = new L.TileLayer(osmUrl, {minZoom: 9, maxZoom: 16, attribution: osmAttrib});
-    map.setView(new L.LatLng(41.8811008, -87.6291208),9);
-    map.addLayer(osm);
-    map.dragging.disable();
-    map.touchZoom.disable();
-    map.doubleClickZoom.disable();
-    map.scrollWheelZoom.disable();
-
-    // Set options for Nominatim geocoder
-    var n_options = {
-      geocodingQueryParams: {
-        "viewbox": [
-          "-88.021160",
-          "42.059420",
-          "-87.450328",
-          "41.561013"
-        ],
-        "bounded": 1,
+function callMapzen(search_params, url) {
+  $.ajax({
+    url: url,
+    data: search_params,
+    dataType: "json",
+    success: function(data) {
+      if (url === auto_url && data.features.length > 0) {
+        addr_matches.clear();
+        addr_matches.add(data.features.map(function(addr) {
+          addr.name = addr.properties.label;
+          return addr;
+        }));
       }
-    };
-
-    // Set options for geocoder control
-    var options = {
-      collapsed: false,
-      geocoder: new L.Control.Geocoder.Nominatim(n_options)
-    };
-
-    var geocoder = L.Control.geocoder(options).addTo(map);
-
-    // Callback for action when geocoder fires
-    geocoder.markGeocode = function(result) {
-      map.setView(result.center, 16);
-      var lat = result.center.lat;
-      var lon = result.center.lng;
-      document.getElementById('lat_hide').value = lat;
-      document.getElementById('lon_hide').value = lon;
-      hasGeo = true;
-      L.marker([lat, lon]).addTo(map);
-    };
+      else if (url === search_url) {
+        if (data && data.features) {
+          issue_obj.issue.lat = data.features[0].geometry.coordinates[0];
+          issue_obj.issue.long = data.features[0].geometry.coordinates[1];
+        }
+      }
+    },
+    error: function(e) {
+      console.log(e);
+    }
   });
 }
+
+inputElement.addEventListener('keyup', throttle(searchAddress, API_RATE_LIMIT));
+$('.typeahead').bind('typeahead:select', function(e, data) {
+  issue_obj.issue.lat = data.geometry.coordinates[0];
+  issue_obj.issue.long = data.geometry.coordinates[1];
+});
+
+inputElement.addEventListener('keyup', function (e) {
+  if (e.keyCode == 13) {
+    searchAddress(true);
+  }
+});
+
+/*
+* throttle Utility function (borrowed from underscore)
+*/
+function throttle (func, wait, options) {
+  var context, args, result;
+  var timeout = null;
+  var previous = 0;
+  if (!options) options = {};
+  var later = function () {
+    previous = options.leading === false ? 0 : new Date().getTime();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function () {
+    var now = new Date().getTime();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+};

@@ -20,6 +20,7 @@ gem "rgeo"
 gem 'activerecord-postgis-adapter'
 gem "leaflet-rails"
 gem "twitter-bootstrap-rails"
+gem 'twitter-typeahead-rails'
 
 group :development, :test do
   gem 'byebug'

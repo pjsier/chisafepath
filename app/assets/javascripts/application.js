@@ -15,4 +15,5 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require leaflet
+//= require twitter/typeahead.min
 //= require_tree ./lib

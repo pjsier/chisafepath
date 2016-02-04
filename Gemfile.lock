@@ -231,6 +231,10 @@ GEM
       execjs (>= 2.2.2, >= 2.2)
       less-rails (>= 2.5.0)
       railties (>= 3.1)
+    twitter-typeahead-rails (0.11.1)
+      actionpack (>= 3.1)
+      jquery-rails
+      railties (>= 3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.2)
@@ -271,6 +275,7 @@ DEPENDENCIES
   spring
   turbolinks
   twitter-bootstrap-rails
+  twitter-typeahead-rails
   uglifier (>= 1.3.0)
   unicorn
   unicorn-rails
