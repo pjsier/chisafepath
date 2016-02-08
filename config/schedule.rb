@@ -7,11 +7,13 @@
 #
 # set :output, "/path/to/my/cron_log.log"
 #
-# every 2.hours do
-#   command "/usr/bin/some_great_command"
-#   runner "MyModel.some_method"
-#   rake "some:great:rake:task"
-# end
+every 10.minutes do
+  runner "ApiTokenJob.perform"
+end
+
+every 12.hours do
+  runner "ApiUpdateJob.perform"
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
