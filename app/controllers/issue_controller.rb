@@ -35,6 +35,17 @@ class IssueController < ApplicationController
   def index
   end
 
+  def get_map_issues
+    coords = params[:coords]
+    radius_issues = Issue.where("ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000)")
+    factory = RGeo::GeoJSON::EntityFactory.instance
+    geo_issues = radius_issues.map{ |i|
+      factory.feature(i.lonlat, i.id, {api_status: i.api_status})
+    }
+    geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
+    render json: geoj
+  end
+
   def issue_params
     params.require(:issue).permit(:img_id, :img_url, :lat, :long, :issues)
   end

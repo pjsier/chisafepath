@@ -19,22 +19,38 @@ geocoder.addTo(map);
 // Create container layer group to allow for deleting previously added layers
 var all_markers = L.layerGroup().addTo(map);
 
+function handleGeo(geo_resp) {
+  var gjLayer = L.geoJson(geo_resp, {
+    // add styling
+    onEachFeature: function (feature, layer) {
+      //maybe add image later
+      layer.bindPopup("<b>Status:</b> " + feature.properties.api_status);
+    }
+  });
+  all_markers.addLayer(gjLayer);
+}
+
 geocoder.on('select', function (e) {
   // clear existing layers from previous searches (if any)
   all_markers.clearLayers();
   var coordinates = e.feature.geometry.coordinates;
   console.log(coordinates);
-  /*
-  function handleGeo(geo_resp) {
-    var gjLayer = L.geoJson(geo_resp, {
-      // add styling
-      onEachFeature: function (feature, layer) {
-        //maybe add image later
-        layer.bindPopup("<b>Status:</b> " + feature.properties.status_311 +
-        "<br><b>Status Notes:</b> " + feature.properties.status_notes_311 +
-        "<br><b>Issues:</b> " + feature.properties.issues);
-      }
-    });
-    all_markers.addLayer(gjLayer);
-    */
+  var query_obj = {
+    coords: coordinates
+  }
+  $.ajax({
+    type: "POST",
+    url: '/map_query',
+    data: JSON.stringify(query_obj),
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+      map.setView(new L.LatLng(coordinates[1], coordinates[0]), 14);
+      handleGeo(response);
+    },
+    error: function (e) {
+      console.log(e);
+    },
+    contentType: 'application/json'
+  });
 });

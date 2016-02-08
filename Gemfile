@@ -19,6 +19,7 @@ gem "leaflet-rails"
 gem "twitter-bootstrap-rails"
 gem 'twitter-typeahead-rails'
 gem 'whenever', :require => false
+gem 'rgeo-geojson'
 
 group :development, :test do
   gem 'byebug'

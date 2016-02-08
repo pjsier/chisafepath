@@ -185,6 +185,8 @@ GEM
     rgeo-activerecord (4.0.5)
       activerecord (~> 4.2)
       rgeo (~> 0.3)
+    rgeo-geojson (0.4.2)
+      rgeo (~> 0.5)
     ruby_parser (3.7.2)
       sexp_processor (~> 4.1)
     sass (3.4.20)
@@ -255,6 +257,7 @@ DEPENDENCIES
   pg
   rails (= 4.2.5)
   rgeo
+  rgeo-geojson
   sdoc (~> 0.4.0)
   spring
   turbolinks
