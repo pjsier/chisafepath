@@ -1,0 +1,26 @@
+.container.main-page
+  .vertical-center
+    = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "ChiSafePath logo"
+  %br
+  .vertical-center
+    = form_for :issue, url: {action: "create", controller: "issue"}, html: {class: "slim-center", id: "uploadForm"} do |f|
+      .form-group
+        .vertical-center.text-center
+          %p Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
+        %h3 Geotagged Image
+        = f.file_field :issuepic
+        %br
+        %span#geo-warn
+      .form-group
+        %h3 Use Current Location
+        %button.btn.btn-default#loc-button{type: "button", onclick: "getLocation();"} Get Location
+        %span#geo-button-res
+      .form-group
+        %h3 Input Address
+        %input.typeahead.form-control#addr-search{type: "text", placeholder: "Enter address..."}
+      .form-group
+        %h3 Issues
+        = f.select :issues, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}
+      = f.submit "Submit"
+      %span#submit-warn
+= javascript_include_tag "issue"

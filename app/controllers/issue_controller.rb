@@ -13,7 +13,7 @@ class IssueController < ApplicationController
       :lat => issue[:lat],
       :long => issue[:long],
       "attribute[WHEREIS1]" => "SIDEWALK",
-      :description => issue[:issues].join(", ")
+      :description => issue[:issues]
       })
 
     response = http.request(request)
@@ -29,7 +29,7 @@ class IssueController < ApplicationController
     # for testing
     # ApiUpdateJob.perform_later()
 
-    render json: { token: response_json[0]["token"] }
+    render "submitted"
   end
 
   def index

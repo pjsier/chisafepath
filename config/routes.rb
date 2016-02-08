@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#index'
+  root 'home#image-index'
   get 'map' => 'home#map_page'
   get 'about' => 'home#about'
   get 'submitted' => 'home#submitted'
-  post 'issue' => 'issue#create', :constraints => {:format=>:json}
+  post 'issue' => 'issue#create'
   post 'map_query' => 'issue#get_map_issues', :constraints => {:format=>:json}
 
   # Example of regular route:
