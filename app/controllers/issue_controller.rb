@@ -25,8 +25,8 @@ class IssueController < ApplicationController
       description: issue[:issues].join(", "),
       lonlat: "POINT(#{issue[:long]} #{issue[:lat]})"
     )
-    
-    # had in for testing
+
+    # for testing
     # ApiUpdateJob.perform_later()
 
     render json: { token: response_json[0]["token"] }
