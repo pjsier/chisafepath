@@ -1,15 +1,3 @@
-/* Create main object, consider other options */
-
-var issue_obj = {
-  issue: {
-    img_id: "",
-    img_url: "",
-    lat: null,
-    long: null,
-    issues: []
-  }
-};
-
 /* Front-end check on EXIF data if image uploaded */
 
 $(':file').change(function(){
@@ -20,16 +8,28 @@ $(':file').change(function(){
       $('#geo-warn').text("Image is not geo-tagged, please enter the location through one of the following fields");
     }
     else {
-      console.log("geotags");
+      var lat = EXIF.getTag(file, "GPSLatitude");
+      var latref = EXIF.getTag(file, "GPSLatitudeRef");
+      var long = EXIF.getTag(file, "GPSLongitude");
+      var longref = EXIF.getTag(file, "GPSLongitudeRef");
+      var latlong = dms2dec(lat, latref, long, longref);
+      console.log(latlong);
+      setLatLong(latlong);
     }
   });
 });
 
-/* Form submit main function */
+function setLatLong(latlong) {
+  document.getElementById("issue_lat").value = latlong[0];
+  document.getElementById("issue_long").value = latlong[1];
+}
 
-$('#uploadForm').submit(function(e) {
+/* Form submit main function */
+/*
+$('form').submit(function(e) {
   e.preventDefault();
-  document.getElementById('geo-submit').innerHTML = "<img src='assets/throbber.gif' />";
+  document.getElementsByTagName('submit')[0].innerHTML = "<img src='assets/throbber.gif' />";
+
   var checked_items = [].slice.call(document.querySelectorAll("input[type='checkbox']:checked"));
   checked_items.map(function(check) {issue_obj.issue.issues.push(check.value)});
 
@@ -72,14 +72,13 @@ $('#uploadForm').submit(function(e) {
     document.getElementById('geo-submit').innerHTML = "Submit";
   }
 });
-
+*/
 function getLocation() {
   if (navigator.geolocation)
   {
     document.getElementById('loc-button').innerHTML = "<img src='assets/throbber.gif' />";
     navigator.geolocation.getCurrentPosition(function(position) {
-      issue_obj.issue.lat = position.coords.latitude;
-      issue_obj.issue.long = position.coords.longitude;
+      setLatLong([position.coords.latitude, position.coords.longitude]);
       document.getElementById('loc-button').innerHTML = "Get Location";
       document.getElementById('geo-button-res').innerHTML = "Success!";
     });
@@ -139,8 +138,7 @@ function callMapzen(search_params, url) {
       }
       else if (url === search_url) {
         if (data && data.features) {
-          issue_obj.issue.lat = data.features[0].geometry.coordinates[0];
-          issue_obj.issue.long = data.features[0].geometry.coordinates[1];
+          setLatLong(data.features[0].geometry.coordinates);
         }
       }
     },

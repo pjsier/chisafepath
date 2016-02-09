@@ -20,6 +20,7 @@ gem "twitter-bootstrap-rails"
 gem 'twitter-typeahead-rails'
 gem 'whenever', :require => false
 gem 'rgeo-geojson'
+gem 'mini_magick'
 
 group :development, :test do
   gem 'byebug'

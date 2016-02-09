@@ -18,6 +18,8 @@
       .form-group
         %h3 Input Address
         %input.typeahead.form-control#addr-search{type: "text", placeholder: "Enter address..."}
+        = f.hidden_field :lat
+        = f.hidden_field :long
       .form-group
         %h3 Issues
         = f.select :issues, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}

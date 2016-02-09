@@ -22,14 +22,14 @@ class IssueController < ApplicationController
 
     Issue.create!(
       api_token: response_token,
-      description: issue[:issues].join(", "),
+      description: issue[:issues],
       lonlat: "POINT(#{issue[:long]} #{issue[:lat]})"
     )
 
     # for testing
     # ApiUpdateJob.perform_later()
 
-    render "submitted"
+    render "home/submitted"
   end
 
   def index
