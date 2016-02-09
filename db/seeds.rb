@@ -12,8 +12,13 @@ json_file = File.read(Rails.root.join(resource_path, "311_pave.json"))
 json_data = JSON.parse(json_file)
 
 json_data.each do |pave_data|
-  issue = Issue.find_or_create_by(api_id: pave_data["service_request_id"],
-                                  api_status: pave_data["status"],
-                                  service_code: pave_data["service_code"],
-                                  lonlat: "POINT(#{pave_data["long"]} #{pave_data["lat"]})")
+  dummy_img = nil
+  unless pave_data["media_url"].blank?
+    dummy_img = pave_data["media_url"]
+  end
+  Issue.find_or_create_by(api_id: pave_data["service_request_id"],
+                          api_status: pave_data["status"],
+                          service_code: pave_data["service_code"],
+                          lonlat: "POINT(#{pave_data["long"]} #{pave_data["lat"]})",
+                          image_url: dummy_img)
 end

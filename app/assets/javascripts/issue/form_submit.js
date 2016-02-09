@@ -1,15 +1,3 @@
-/* Create main object, consider other options */
-
-var issue_obj = {
-  issue: {
-    img_id: "",
-    img_url: "",
-    lat: null,
-    long: null,
-    issues: []
-  }
-};
-
 /* Front-end check on EXIF data if image uploaded */
 
 $(':file').change(function(){
@@ -20,68 +8,39 @@ $(':file').change(function(){
       $('#geo-warn').text("Image is not geo-tagged, please enter the location through one of the following fields");
     }
     else {
-      console.log("geotags");
+      var lat = EXIF.getTag(file, "GPSLatitude");
+      var latref = EXIF.getTag(file, "GPSLatitudeRef");
+      var long = EXIF.getTag(file, "GPSLongitude");
+      var longref = EXIF.getTag(file, "GPSLongitudeRef");
+      var latlong = dms2dec(lat, latref, long, longref);
+      setLatLong(latlong);
     }
   });
 });
 
+function setLatLong(latlong) {
+  document.getElementById("issue_lat").value = latlong[0];
+  document.getElementById("issue_long").value = latlong[1];
+}
+
 /* Form submit main function */
 
-$('#uploadForm').submit(function(e) {
-  e.preventDefault();
-  document.getElementById('geo-submit').innerHTML = "<img src='assets/throbber.gif' />";
-  var checked_items = [].slice.call(document.querySelectorAll("input[type='checkbox']:checked"));
-  checked_items.map(function(check) {issue_obj.issue.issues.push(check.value)});
-
-  if (document.getElementById('other_issue').value.length != 0) {
-    issue_obj.issue.issues.push(document.getElementById('other_issue').value);
-  }
-
-  if (issue_obj.issue.issues.length === 0) {
-    issue_obj.issue.issues.push("Sidewalk hazard");
-  }
-
-  if (document.getElementById("userPhoto").value != "") {
-    var file = $(':file').prop('files')[0];
-    var lat = EXIF.getTag(file, "GPSLatitude"),
-      latref = EXIF.getTag(file, "GPSLatitudeRef"),
-      long = EXIF.getTag(file, "GPSLongitude"),
-      longref = EXIF.getTag(file, "GPSLongitudeRef");
-
-    // Eventually post to image service or check w/CarrierWave
-  }
-  else if (issue_obj.issue.lat !== null) {
-    $.ajax({
-      type: "POST",
-      url: '/issue',
-      data: JSON.stringify(issue_obj),
-      dataType: "json",
-      success: function (response) {
-        console.log(response);
-        window.location.href = '/submitted';
-      },
-      error: function (e) {
-        document.getElementById('geo-submit').innerHTML = "Submit";
-        document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Error occurred, please check your connection and try again</b><br><br>";
-      },
-      contentType: 'application/json'
-    });
-  }
-  else {
-    document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
-    document.getElementById('geo-submit').innerHTML = "Submit";
+$('form').submit(function(e) {
+  var submit_span = document.getElementById('submit-warn');
+  submit_span.innerHTML = "<img height='30px' src='assets/rolling.gif' />";
+  if (document.getElementById("issue_lat").value === "") {
+    e.preventDefault();
+    submit_span.innerHTML = "<b style='color:red'>Please provide a location</b>";
   }
 });
 
 function getLocation() {
   if (navigator.geolocation)
   {
-    document.getElementById('loc-button').innerHTML = "<img src='assets/throbber.gif' />";
+    document.getElementById('geo-button-res').innerHTML = "<img height='30px' src='assets/rolling.gif' />";
     navigator.geolocation.getCurrentPosition(function(position) {
-      issue_obj.issue.lat = position.coords.latitude;
-      issue_obj.issue.long = position.coords.longitude;
-      document.getElementById('loc-button').innerHTML = "Get Location";
-      document.getElementById('geo-button-res').innerHTML = "Success!";
+      setLatLong([position.coords.latitude, position.coords.longitude]);
+      document.getElementById('geo-button-res').innerHTML = "Location recorded";
     });
   }
   else {
@@ -139,8 +98,7 @@ function callMapzen(search_params, url) {
       }
       else if (url === search_url) {
         if (data && data.features) {
-          issue_obj.issue.lat = data.features[0].geometry.coordinates[0];
-          issue_obj.issue.long = data.features[0].geometry.coordinates[1];
+          setLatLong(data.features[0].geometry.coordinates);
         }
       }
     },
@@ -152,8 +110,7 @@ function callMapzen(search_params, url) {
 
 inputElement.addEventListener('keyup', throttle(searchAddress, API_RATE_LIMIT));
 $('.typeahead').bind('typeahead:select', function(e, data) {
-  issue_obj.issue.lat = data.geometry.coordinates[0];
-  issue_obj.issue.long = data.geometry.coordinates[1];
+  setLatLong(data.geometry.coordinates.reverse());
 });
 
 inputElement.addEventListener('keyup', function (e) {
