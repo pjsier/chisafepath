@@ -21,6 +21,8 @@ gem 'twitter-typeahead-rails'
 gem 'whenever', :require => false
 gem 'rgeo-geojson'
 gem 'mini_magick'
+gem 'fog'
+gem 'fog-aws'
 
 group :development, :test do
   gem 'byebug'

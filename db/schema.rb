@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20160208170706) do
     t.string    "service_code"
     t.text      "description"
     t.geography "lonlat",       limit: {:srid=>4326, :type=>"point", :geographic=>true}
-    t.string    "issuepic"
+    t.string    "image_url"
   end
 
   create_table "issues_categories", id: false, force: :cascade do |t|

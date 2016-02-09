@@ -4,19 +4,16 @@ class IssuepicUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::MiniMagick
 
-  # Choose what kind of storage to use for this uploader:
-  storage :file
+  storage :fog
 
-  include CarrierWave::MiniMagick
-
-  process convert: "png"
+  process resize_to_fit: [500, 500]
 
   def filename
-    original_filename.gsub(/([\s\-_\[\]\{\}\*\']|%20)+/i, "-") if original_filename
+     "#{SecureRandom.hex(10)}.#{file.extension}" if original_filename.present?
   end
 
   def store_dir
-    "uploads/#{model.id}"
+    "uploads"
   end
 
   def extension_white_list

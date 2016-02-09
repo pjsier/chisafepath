@@ -23,6 +23,6 @@
       .form-group
         %h3 Issues
         = f.select :issues, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}
-      = f.submit "Submit"
+      = f.submit "Submit", :class => "btn btn-default"
       %span#submit-warn
 = javascript_include_tag "issue"
