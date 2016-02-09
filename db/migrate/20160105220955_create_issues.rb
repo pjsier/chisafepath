@@ -6,7 +6,8 @@ class CreateIssues < ActiveRecord::Migration
       t.string :api_token
       t.string :api_status
       t.string :service_code
-      t.text :description
+      t.string :description
+      t.string :image_url
       t.st_point :lonlat, geographic: true
     end
   end

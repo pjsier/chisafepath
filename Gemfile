@@ -23,6 +23,7 @@ gem 'rgeo-geojson'
 gem 'mini_magick'
 gem 'fog'
 gem 'fog-aws'
+gem 'aws-sdk'
 
 group :development, :test do
   gem 'byebug'

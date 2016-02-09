@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#image-index'
+  root 'home#index'
   get 'map' => 'home#map_page'
   get 'about' => 'home#about'
   get 'submitted' => 'home#submitted'

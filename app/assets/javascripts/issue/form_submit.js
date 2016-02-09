@@ -13,7 +13,6 @@ $(':file').change(function(){
       var long = EXIF.getTag(file, "GPSLongitude");
       var longref = EXIF.getTag(file, "GPSLongitudeRef");
       var latlong = dms2dec(lat, latref, long, longref);
-      console.log(latlong);
       setLatLong(latlong);
     }
   });
@@ -25,62 +24,23 @@ function setLatLong(latlong) {
 }
 
 /* Form submit main function */
-/*
+
 $('form').submit(function(e) {
-  e.preventDefault();
-  document.getElementsByTagName('submit')[0].innerHTML = "<img src='assets/throbber.gif' />";
-
-  var checked_items = [].slice.call(document.querySelectorAll("input[type='checkbox']:checked"));
-  checked_items.map(function(check) {issue_obj.issue.issues.push(check.value)});
-
-  if (document.getElementById('other_issue').value.length != 0) {
-    issue_obj.issue.issues.push(document.getElementById('other_issue').value);
-  }
-
-  if (issue_obj.issue.issues.length === 0) {
-    issue_obj.issue.issues.push("Sidewalk hazard");
-  }
-
-  if (document.getElementById("userPhoto").value != "") {
-    var file = $(':file').prop('files')[0];
-    var lat = EXIF.getTag(file, "GPSLatitude"),
-      latref = EXIF.getTag(file, "GPSLatitudeRef"),
-      long = EXIF.getTag(file, "GPSLongitude"),
-      longref = EXIF.getTag(file, "GPSLongitudeRef");
-
-    // Eventually post to image service or check w/CarrierWave
-  }
-  else if (issue_obj.issue.lat !== null) {
-    $.ajax({
-      type: "POST",
-      url: '/issue',
-      data: JSON.stringify(issue_obj),
-      dataType: "json",
-      success: function (response) {
-        console.log(response);
-        window.location.href = '/submitted';
-      },
-      error: function (e) {
-        document.getElementById('geo-submit').innerHTML = "Submit";
-        document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Error occurred, please check your connection and try again</b><br><br>";
-      },
-      contentType: 'application/json'
-    });
-  }
-  else {
-    document.getElementById("submit-warn").innerHTML = "<b style='color:red'>Please enter one form of location information</b><br><br>";
-    document.getElementById('geo-submit').innerHTML = "Submit";
+  var submit_span = document.getElementById('submit-warn');
+  submit_span.innerHTML = "<img height='30px' src='assets/rolling.gif' />";
+  if (document.getElementById("issue_lat").value === "") {
+    e.preventDefault();
+    submit_span.innerHTML = "<b style='color:red'>Please provide a location</b>";
   }
 });
-*/
+
 function getLocation() {
   if (navigator.geolocation)
   {
-    document.getElementById('loc-button').innerHTML = "<img src='assets/throbber.gif' />";
+    document.getElementById('geo-button-res').innerHTML = "<img height='30px' src='assets/rolling.gif' />";
     navigator.geolocation.getCurrentPosition(function(position) {
       setLatLong([position.coords.latitude, position.coords.longitude]);
-      document.getElementById('loc-button').innerHTML = "Get Location";
-      document.getElementById('geo-button-res').innerHTML = "Success!";
+      document.getElementById('geo-button-res').innerHTML = "Location recorded";
     });
   }
   else {
@@ -150,8 +110,7 @@ function callMapzen(search_params, url) {
 
 inputElement.addEventListener('keyup', throttle(searchAddress, API_RATE_LIMIT));
 $('.typeahead').bind('typeahead:select', function(e, data) {
-  issue_obj.issue.lat = data.geometry.coordinates[0];
-  issue_obj.issue.long = data.geometry.coordinates[1];
+  setLatLong(data.geometry.coordinates.reverse());
 });
 
 inputElement.addEventListener('keyup', function (e) {
