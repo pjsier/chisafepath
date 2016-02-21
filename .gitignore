@@ -29,3 +29,6 @@ Procfile.local
 dump.rdb
 
 .env
+
+# Ignore application configuration
+/config/application.yml

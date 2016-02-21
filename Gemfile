@@ -24,6 +24,7 @@ gem 'mini_magick'
 gem 'fog'
 gem 'fog-aws'
 gem 'aws-sdk'
+gem 'figaro'
 
 group :development, :test do
   gem 'byebug'
