@@ -24,7 +24,13 @@ function handleGeo(geo_resp) {
     // add styling
     onEachFeature: function (feature, layer) {
       //maybe add image later
-      layer.bindPopup("<b>Status:</b> " + feature.properties.api_status);
+      var popup_content = "<b>Created:</b> " + feature.properties.create_time + "<br>" +
+                          "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
+                          "<b>Status:</b> " + feature.properties.api_status;
+      if (feature.properties.image_url !== null) {
+        popup_content += "<br><img src='" + feature.properties.image_url + "'>";
+      }
+      layer.bindPopup(popup_content);
     }
   });
   all_markers.addLayer(gjLayer);
@@ -37,7 +43,7 @@ geocoder.on('select', function (e) {
   console.log(coordinates);
   var query_obj = {
     coords: coordinates
-  }
+  };
   $.ajax({
     type: "POST",
     url: '/map_query',

@@ -119,6 +119,10 @@ inputElement.addEventListener('keyup', function (e) {
   }
 });
 
+$("#loc-button").click(function() {
+  getLocation();
+});
+
 /*
 * throttle Utility function (borrowed from underscore)
 */

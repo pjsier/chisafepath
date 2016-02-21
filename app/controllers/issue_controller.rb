@@ -49,7 +49,10 @@ class IssueController < ApplicationController
     radius_issues = Issue.where("ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000)")
     factory = RGeo::GeoJSON::EntityFactory.instance
     geo_issues = radius_issues.map{ |i|
-      factory.feature(i.lonlat, i.id, {api_status: i.api_status})
+      factory.feature(i.lonlat, i.id, { api_status: i.api_status,
+                                        create_time: i.created_at.strftime("%-m-%-d-%y %I:%M%P"),
+                                        update_time: i.updated_at.strftime("%-m-%-d-%y %I:%M%P"),
+                                        image_url: i.image_url })
     }
     geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
     render json: geoj

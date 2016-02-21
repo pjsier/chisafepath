@@ -1,6 +1,6 @@
 .container.main-page
   .vertical-center
-    = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "ChiSafePath logo"
+    = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "Chi Safe Path logo"
   %br
   .vertical-center
     = form_for :issue, url: {action: "create", controller: "issue"}, html: {class: "slim-center"} do |f|
@@ -13,7 +13,7 @@
         %span#geo-warn
       .form-group
         %h3 Use Current Location
-        %button.btn.btn-default#loc-button{type: "button", onclick: "getLocation();"} Get Location
+        %button.btn.btn-default#loc-button{type: "button"} Get Location
         %span#geo-button-res
       .form-group
         %h3 Input Address

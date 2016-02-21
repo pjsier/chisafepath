@@ -1,7 +1,5 @@
 class Issue < ActiveRecord::Base
 
-  has_and_belongs_to_many :categories
-
   def remove_aws_img
     if self.image_url.starts_with("https://chisafepath")
       s3 = Aws::S3::Client.new
