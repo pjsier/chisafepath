@@ -27,7 +27,7 @@ function setLatLong(latlong) {
 
 $('form').submit(function(e) {
   var submit_span = document.getElementById('submit-warn');
-  submit_span.innerHTML = "<img height='30px' src='assets/rolling.gif' />";
+  submit_span.innerHTML = "<img height='30px' src='<%= asset_path('rolling.gif') %>' />";
   if (document.getElementById("issue_lat").value === "") {
     e.preventDefault();
     submit_span.innerHTML = "<b style='color:red'>Please provide a location</b>";
@@ -37,7 +37,7 @@ $('form').submit(function(e) {
 function getLocation() {
   if (navigator.geolocation)
   {
-    document.getElementById('geo-button-res').innerHTML = "<img height='30px' src='assets/rolling.gif' />";
+    document.getElementById('geo-button-res').innerHTML = "<img height='30px' src='<%= asset_path('rolling.gif') %>' />";
     navigator.geolocation.getCurrentPosition(function(position) {
       setLatLong([position.coords.latitude, position.coords.longitude]);
       document.getElementById('geo-button-res').innerHTML = "Location recorded";
