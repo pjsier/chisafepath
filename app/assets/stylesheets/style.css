@@ -11,6 +11,10 @@ body {
   height: 100%;
 }
 
+a {
+  color: #176FBB;
+}
+
 #map-container {
   height: 100%;
   padding-top: 50px;
