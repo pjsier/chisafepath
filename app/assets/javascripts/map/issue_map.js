@@ -16,6 +16,9 @@ var options = {
 var geocoder = L.control.geocoder("search-F2Xk0nk", options);
 geocoder.addTo(map);
 
+// Move zoom control to top right so doesn't overlap with geocoder
+map.zoomControl.setPosition('topright');
+
 // Create container layer group to allow for deleting previously added layers
 var all_markers = L.layerGroup().addTo(map);
 
