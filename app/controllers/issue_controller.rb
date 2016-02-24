@@ -46,7 +46,9 @@ class IssueController < ApplicationController
 
   def get_map_issues
     coords = params[:coords]
-    radius_issues = Issue.where("ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000)")
+    radius_issues = Issue.where(
+      "ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000) AND api_status = 'open'"
+      )
     factory = RGeo::GeoJSON::EntityFactory.instance
     geo_issues = radius_issues.map{ |i|
       factory.feature(i.lonlat, i.id, { api_status: i.api_status,
