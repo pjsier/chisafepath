@@ -16,6 +16,9 @@ var options = {
 var geocoder = L.control.geocoder("search-F2Xk0nk", options);
 geocoder.addTo(map);
 
+// Move zoom control to top right so doesn't overlap with geocoder
+map.zoomControl.setPosition('topright');
+
 // Create container layer group to allow for deleting previously added layers
 var all_markers = L.layerGroup().addTo(map);
 
@@ -28,7 +31,7 @@ function handleGeo(geo_resp) {
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
                           "<b>Status:</b> " + feature.properties.api_status;
       if (feature.properties.image_url !== null) {
-        popup_content += "<br><img src='" + feature.properties.image_url + "'>";
+        popup_content += "<br><img class='tooltip-img' src='" + feature.properties.image_url + "'>";
       }
       layer.bindPopup(popup_content);
     }

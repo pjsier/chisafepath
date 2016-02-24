@@ -107,3 +107,7 @@ h3 {
 #submit_warn {
   padding-left: 10px;
 }
+
+.tooltip-img {
+  width: 150px;
+}
