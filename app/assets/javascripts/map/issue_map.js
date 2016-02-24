@@ -31,7 +31,7 @@ function handleGeo(geo_resp) {
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
                           "<b>Status:</b> " + feature.properties.api_status;
       if (feature.properties.image_url !== null) {
-        popup_content += "<br><img src='" + feature.properties.image_url + "'>";
+        popup_content += "<br><img class='tooltip-img' src='" + feature.properties.image_url + "'>";
       }
       layer.bindPopup(popup_content);
     }
