@@ -8,7 +8,7 @@
         .vertical-center.text-center
           %p Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
         %h3 Geotagged Image
-        = f.file_field :issuepic
+        = f.file_field :issuepic, accept: "image/*"
         %br
         %span#geo-warn
       .form-group
