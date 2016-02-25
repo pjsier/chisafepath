@@ -30,7 +30,7 @@ function handleGeo(geo_resp) {
       var popup_content = "<b>Created:</b> " + feature.properties.create_time + "<br>" +
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
                           "<b>Status:</b> " + feature.properties.api_status;
-      if (feature.properties.image_url !== null) {
+      if (feature.properties.image_url !== undefined) {
         popup_content += "<br><img class='tooltip-img' src='" + feature.properties.image_url + "'>";
       }
       layer.bindPopup(popup_content);

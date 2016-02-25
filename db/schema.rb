@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 20160105220955) do
     t.string    "api_status_notes"
     t.string    "api_address"
     t.string    "api_agency_responsible"
-    t.string    "service_code"
     t.string    "description"
     t.geography "lonlat",                 limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer   "image_id"
