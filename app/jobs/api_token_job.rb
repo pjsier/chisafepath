@@ -1,7 +1,7 @@
 class ApiTokenJob < ActiveJob::Base
   queue_as :default
 
-  def perform(*args)
+  def perform
     pending_items = Issue.where(api_id: [nil, ''])
     api_items = []
     # Create array of request ids that do not have attributes yet in db
