@@ -17,16 +17,40 @@ ActiveRecord::Schema.define(version: 20160105220955) do
   enable_extension "plpgsql"
   enable_extension "postgis"
 
+  create_table "images", force: :cascade do |t|
+    t.string   "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "issues", force: :cascade do |t|
     t.datetime  "created_at"
     t.datetime  "updated_at"
+    t.datetime  "api_created_at"
+    t.datetime  "api_updated_at"
     t.string    "api_id"
     t.string    "api_token"
     t.string    "api_status"
+    t.string    "api_status_notes"
+    t.string    "api_address"
+    t.string    "api_agency_responsible"
     t.string    "service_code"
     t.string    "description"
-    t.string    "image_url"
-    t.geography "lonlat",       limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.geography "lonlat",                 limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.integer   "image_id"
   end
+
+  add_index "issues", ["image_id"], name: "index_issues_on_image_id", using: :btree
+  add_index "issues", ["lonlat"], name: "index_issues_on_lonlat", using: :gist
+
+  create_table "locations", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "level"
+    t.geometry "geom",       limit: {:srid=>0, :type=>"geometry"}
+  end
+
+  add_index "locations", ["geom"], name: "index_locations_on_geom", using: :gist
 
 end

@@ -1,9 +1,10 @@
 class Issue < ActiveRecord::Base
+  belongs_to :image
 
-  def remove_aws_img
-    if self.image_url.starts_with("https://chisafepath")
-      s3 = Aws::S3::Client.new
-      s3.delete_object(bucket: 'chisafepath', key: self.image_url[37..-1])
-    end
+  def to_geojson
+    factory.feature(i.lonlat, i.id, { api_status: i.api_status,
+                                      create_time: i.created_at.strftime("%-m-%-d-%y %I:%M%P"),
+                                      update_time: i.updated_at.strftime("%-m-%-d-%y %I:%M%P"),
+                                      image_url: i.image_url })
   end
 end
