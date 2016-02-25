@@ -15,3 +15,12 @@ test:
   username: chisafepath
   password: password
   min_messages: WARNING
+
+production:
+  adapter: postgis
+  encoding: unicode
+  database: chisafepath_production
+  pool: 5
+  username: chisafepath
+  password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
+  min_messages: WARNING
