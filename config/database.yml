@@ -20,6 +20,7 @@ production:
   adapter: postgis
   encoding: unicode
   database: chisafepath_production
+  host: localhost
   pool: 5
   username: chisafepath
   password: <%= ENV['PROD_DATABASE_PASSWORD'] %>
