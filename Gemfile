@@ -25,6 +25,7 @@ gem 'fog'
 gem 'fog-aws'
 gem 'aws-sdk'
 gem 'figaro'
+gem 'therubyracer'
 
 group :development, :test do
   gem 'byebug'
