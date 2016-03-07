@@ -1,20 +1,13 @@
-development:
+development: &default
   adapter: postgis
   encoding: unicode
   database: chisafepath_development
   pool: 5
-  username: chisafepath
-  password: password
+  username: postgres
+  password:
   min_messages: WARNING
-
-test:
-  adapter: postgis
-  encoding: unicode
-  database: chisafepath_test
-  pool: 5
-  username: chisafepath
-  password: password
-  min_messages: WARNING
+  host: postgis
+  port: 5432 
 
 production:
   adapter: postgis

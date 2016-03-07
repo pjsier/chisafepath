@@ -1,0 +1,13 @@
+FROM postgres:9.4
+
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  libpq-dev \
+  libgeos-dev \
+  libgmp3-dev \
+  libproj-dev \
+  postgresql-contrib \
+  postgis \
+  postgresql-9.4-postgis-2.1 \
+  postgresql-9.4-postgis-2.1-scripts \
+  postgresql-9.4-postgis-scripts
