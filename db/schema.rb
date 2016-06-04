@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105220955) do
+ActiveRecord::Schema.define(version: 20160604225216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20160105220955) do
     t.string    "description"
     t.geography "lonlat",                 limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer   "image_id"
+    t.boolean   "otp_updated",                                                                     default: false
   end
 
   add_index "issues", ["image_id"], name: "index_issues_on_image_id", using: :btree

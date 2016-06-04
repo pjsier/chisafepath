@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'submitted' => 'home#submitted'
   post 'issue' => 'issue#create'
   post 'map_query' => 'issue#get_map_issues', :constraints => {:format=>:json}
+  get 'json_issues' => 'issue#display_open_issues'
+  post 'otp_reply' => 'issue#accept_otp_response', :constraints => {:format=>:json}
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
