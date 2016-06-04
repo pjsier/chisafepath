@@ -7,9 +7,7 @@ their location or submitting a geotagged picture.
 ```
 docker-machine create -d virtualbox chisafepath
 docker-compose build
-docker-compose run chisafepath rake db:create RAILS_ENV=development
-docker-compose run chisafepath rake db:migrate RAILS_ENV=development
-docker-compose run chisafepath rake db:seed RAILS_ENV=development
+docker-compose run chisafepath rake db:setup RAILS_ENV=development
 docker-compose up
 ```
 
