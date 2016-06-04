@@ -12,4 +12,12 @@ class Issue < ActiveRecord::Base
 
     factory.feature(self.lonlat, self.id, issue_items)
   end
+
+  def to_otp_json
+    json_issue = {
+      id: self.id,
+      status: self.api_status,
+      coords: "#{self.lonlat.lat}, #{self.lonlat.lon}"
+    }
+  end
 end

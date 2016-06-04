@@ -49,6 +49,29 @@ class IssueController < ApplicationController
     render json: geoj
   end
 
+  def display_open_issues
+    open_issues = Issue.where(api_status: 'open', otp_updated: false)
+    formatted_issues = open_issues.map{ |i| i.to_otp_json }
+
+    render json: formatted_issues
+  end
+
+  def accept_otp_response
+    otp_ids = params.permit(:id)
+
+    unless otp_ids.nil?
+      otp_updated = Issue.find(otp_ids)
+      otp_updated.map{ |i|
+        i.update(otp_updated: true)
+        puts "#{i.id} #{i.otp_updated}"
+      }
+    end
+
+    render status: 200, json: {
+      message: "Successfully replied with ids."
+    }.to_json
+  end
+
   private
   def issue_params
     params.require(:issue).permit(:image_url, :issuepic, :description, :lat, :long)
