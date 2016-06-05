@@ -1125,6 +1125,14 @@ p#splash-text span {
 
 }
 
+button#otp-planner-optionsWidget-submit-button {
+  margin-top: 15px;
+}
+
+div#otp-planner-optionsWidget-modeSelector-widgets {
+  display: none;
+}
+
 @media only screen and (min-width: 1300px) {
 }
 

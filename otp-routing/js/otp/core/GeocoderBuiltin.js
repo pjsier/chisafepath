@@ -16,7 +16,7 @@ otp.namespace("otp.core");
 
 otp.core.GeocoderBuiltin = otp.Class({
 
-    url: 'http://localhost:8080/otp/routers/default/geocode',
+    url: 'http://otp.chisafepath.com/otp/routers/chicago/geocode',
 
     initialize : function(url, addressParam) {
         // Do nothing, the proper address and query param are already known.

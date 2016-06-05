@@ -37,6 +37,7 @@ otp.widgets.tripoptions.TripOptionsWidget =
 
         //this.planTripCallback = planTripCallback;
         this.module = module;
+        this.module.wheelchair = true;
 
         this.controls = {};
     },
@@ -421,13 +422,14 @@ otp.widgets.tripoptions.WheelChairSelector =
         otp.widgets.tripoptions.TripOptionsWidgetControl.prototype.initialize.apply(this, arguments);
 
         this.id = tripWidget.id;
-
+        //this_.tripWidget.module.wheelchair = this.checked;
 
         ich['otp-tripOptions-wheelchair']({
             widgetId : this.id,
             label : this.label,
         }).appendTo(this.$());
 
+        //this_.tripWidget.module.wheelchair = this.checked;
     },
 
     doAfterLayout : function() {
