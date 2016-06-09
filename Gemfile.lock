@@ -93,8 +93,6 @@ GEM
     erubis (2.7.0)
     excon (0.45.4)
     execjs (2.6.0)
-    figaro (1.1.1)
-      thor (~> 0.14)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.37.0)
@@ -389,7 +387,6 @@ DEPENDENCIES
   aws-sdk
   byebug
   carrierwave
-  figaro
   fog
   fog-aws
   formtastic

@@ -2,7 +2,13 @@ class ApiUpdateJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    uri = URI("http://311api.cityofchicago.org/open311/v2/requests.json?service_code=4ffa971e6018277d4000000b&page_size=200")
+    if Rails.env.production?
+      api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
+    else
+      api_url = "http://test311api.cityofchicago.org/open311/v2/requests.json"
+    end
+    
+    uri = URI("#{api_url}?service_code=4ffa971e6018277d4000000b&page_size=200")
     response = Net::HTTP.get(uri)
     response_json = JSON.parse(response)
 

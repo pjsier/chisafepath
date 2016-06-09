@@ -12,10 +12,6 @@
         %br
         %span#geo-warn
       .form-group
-        %h3 Use Current Location
-        %button.btn.btn-default#loc-button{type: "button"} Get Location
-        %span#geo-button-res
-      .form-group
         %h3 Input Address
         %input.typeahead.form-control#addr-search{type: "text", placeholder: "Enter address..."}
         = f.hidden_field :lat

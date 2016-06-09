@@ -4,10 +4,16 @@ class ApiTokenJob < ActiveJob::Base
   def perform
     pending_items = Issue.where(api_id: [nil, ''])
     api_items = []
+    if Rails.env.production?
+      api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
+    else
+      api_url = "http://test311api.cityofchicago.org/open311/v2/requests.json"
+    end
+
     # Create array of request ids that do not have attributes yet in db
     pending_items.map{ |i|
       unless i.api_token.nil?
-        uri = URI("http://test311api.cityofchicago.org/open311/v2/tokens/#{i.api_token}.json")
+        uri = URI("#{api_url}/#{i.api_token}.json")
         response = Net::HTTP.get(uri)
         rjson = JSON.parse(response)[0]
         if rjson.key?("service_request_id")
@@ -19,7 +25,7 @@ class ApiTokenJob < ActiveJob::Base
 
     # For each new id, query the attributes and update the data
     api_items.map{ |r|
-      uri = URI("http://test311api.cityofchicago.org/open311/v2/requests/#{r.api_id}.json")
+      uri = URI("#{api_url}/#{r.api_id}.json")
       response = Net::HTTP.get(uri)
       rjson = JSON.parse(response)[0]
 

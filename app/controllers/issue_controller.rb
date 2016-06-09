@@ -1,11 +1,16 @@
 class IssueController < ApplicationController
   def create
-    uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests.json")
+    if Rails.env.production?
+      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests.json")
+    else
+      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests.json")
+    end
+
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri)
 
     api_data = {
-      :api_key => ENV["CHI_TEST_311_KEY"],
+      :api_key => Rails.application.secrets.chi_311_key,
       :service_code => "4ffa971e6018277d4000000b",
       :lat => issue_params[:lat],
       :long => issue_params[:long],
@@ -50,26 +55,17 @@ class IssueController < ApplicationController
   end
 
   def display_open_issues
-    open_issues = Issue.where(api_status: 'open', otp_updated: false)
-    formatted_issues = open_issues.map{ |i| i.to_otp_json }
-
-    render json: formatted_issues
-  end
-
-  def accept_otp_response
-    otp_ids = params.permit(:id)
-
-    unless otp_ids.nil?
-      otp_updated = Issue.find(otp_ids)
-      otp_updated.map{ |i|
-        i.update(otp_updated: true)
-        puts "#{i.id} #{i.otp_updated}"
-      }
+    if params[:updated_at]
+      last_updated = Date.parse(params[:updated_at])
+    else
+      last_updated = 2.weeks.ago
     end
 
-    render status: 200, json: {
-      message: "Successfully replied with ids."
-    }.to_json
+    open_issues = Issue.where("api_status = ? AND created_at >= ?",
+                              "open",
+                              last_updated)
+    formatted_issues = open_issues.map{ |i| i.to_otp_json }
+    render json: formatted_issues
   end
 
   private

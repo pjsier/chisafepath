@@ -5,15 +5,20 @@ class ApiStatusJob < ActiveJob::Base
     open_issues = Issue.where("api_status = ? AND created_at >= ?",
                               "open",
                               3.months.ago)
+    if Rails.env.production?
+      api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
+    else
+      api_url = "http://test311api.cityofchicago.org/open311/v2/requests.json"
+    end
 
     open_issues.map { |i|
-      uri = URI("http://test311api.cityofchicago.org/open311/v2/requests/#{r.api_id}.json")
+
+      uri = URI("#{api_url}/#{r.api_id}.json")
       response = Net::HTTP.get(uri)
       rjson = JSON.parse(response)[0]
 
       if rjson["status"] == "closed"
         i.update(api_status: "closed")
-        i.update(otp_updated: false)
       end
     }
   end
