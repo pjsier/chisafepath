@@ -11,5 +11,11 @@ docker-compose run chisafepath rake db:setup RAILS_ENV=development
 docker-compose up
 ```
 
+## Local Setup without Docker
+```
+rake db:setup RAILS_ENV=development
+rails s
+```
+
 ## Routing
 Working on routing through [OpenTripPlanner](http://www.opentripplanner.org/). Dockerfile for this is from the [docker-otp-chicago](https://github.com/thcrock/docker-otp-chicago) repo.
