@@ -2,39 +2,33 @@ class ApiUpdateJob < ActiveJob::Base
   queue_as :default
 
   def perform
-    if Rails.env.production?
-      api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
-    else
-      api_url = "http://test311api.cityofchicago.org/open311/v2/requests.json"
-    end
-    
-    uri = URI("#{api_url}?service_code=4ffa971e6018277d4000000b&page_size=200")
+    api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
+    query_time = Time.now - 30.minutes
+    query_time = query_time.strftime("%Y-%m-%dT%H:%M:%S-05:00")
+    uri = URI("#{api_url}?service_code=4ffa971e6018277d4000000b&page_size=500&updated_after#{query_time}")
+
     response = Net::HTTP.get(uri)
-    response_json = JSON.parse(response)
+    begin
+      rjson = JSON.parse(response)
+    rescue JSON::ParserError
+      rjson = nil
+    end
 
-    response_json.map{ |r|
-      unless Issue.exists?(api_id: r["service_request_id"])
-        r_seed = {
-          api_id: r["service_request_id"],
-          api_status: r["status"],
-          lonlat: "POINT(#{r["long"]} #{r["lat"]})",
-          api_created_at: r["requested_datetime"],
-          api_updated_at: r["updated_datetime"],
-          api_address: r["address"],
-          api_agency_responsible: r["agency_resposible"]
-        }
+    rjson.map{ |r|
+      r_params = {
+        service_request_id: r["service_request_id"],
+        status: r["status"],
+        lonlat: "POINT(#{r["long"]} #{r["lat"]})",
+        requested_datetime: r["requested_datetime"],
+        updated_datetime: r["updated_datetime"],
+        address: r["address"]
+      }
 
-        unless r["media_url"].blank?
-          api_img = Image.find_or_create_by(url: r["media_url"])
-          r_seed.merge!(image_id: api_img.id)
-        end
+      r_params[:status_notes] if r["status_notes"]
+      r_params[:description] if r["description"]
+      r_params[:media_url] if r["media_url"]
 
-        unless r["status_notes"].blank?
-          r_seed.merge!(api_status_notes: r["status_notes"])
-        end
-
-        Issue.find_or_create_by(r_seed)
-      end
+      Issue.find_or_create_from_params(r_params)
     }
   end
 

@@ -26,15 +26,14 @@ ActiveRecord::Schema.define(version: 20160604225216) do
   create_table "issues", force: :cascade do |t|
     t.datetime  "created_at"
     t.datetime  "updated_at"
-    t.datetime  "api_created_at"
-    t.datetime  "api_updated_at"
-    t.string    "api_id"
-    t.string    "api_token"
-    t.string    "api_status"
-    t.string    "api_status_notes"
-    t.string    "api_address"
-    t.string    "api_agency_responsible"
+    t.datetime  "requested_datetime"
+    t.datetime  "updated_datetime"
+    t.string    "service_request_id"
+    t.string    "status"
+    t.string    "status_notes"
+    t.string    "address"
     t.string    "description"
+    t.string    "media_url"
     t.geography "lonlat",                 limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.integer   "image_id"
   end

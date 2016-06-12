@@ -1,9 +1,9 @@
 var map = L.map('map');
-var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+var osmUrl='http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png';
+var osmAttrib='Data from <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors. Tiles from <a href="http://www.thunderforest.com/transport/">Andy Allan</a>';
 var osm = new L.TileLayer(osmUrl, {minZoom: 10, maxZoom: 18, attribution: osmAttrib});
-var center = new L.LatLng(41.8811008, -87.6291208);
-map.setView(center, 10);
+var center = new L.LatLng(41.878114, -87.629798);
+map.setView(center, 12);
 map.addLayer(osm);
 
 // Set options for geocoder control
@@ -29,7 +29,7 @@ function handleGeo(geo_resp) {
       //maybe add image later
       var popup_content = "<b>Created:</b> " + feature.properties.create_time + "<br>" +
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
-                          "<b>Status:</b> " + feature.properties.api_status;
+                          "<b>Status:</b> " + feature.properties.status;
       if (feature.properties.image_url !== undefined) {
         popup_content += "<br><img class='tooltip-img' src='" + feature.properties.image_url + "'>";
       }

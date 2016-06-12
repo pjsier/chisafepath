@@ -1,9 +1,9 @@
 class IssueController < ApplicationController
-  def create
+  def api_submit
     if Rails.env.production?
-      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests.json")
+      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests")
     else
-      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests.json")
+      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
     end
 
     http = Net::HTTP.new(uri.host, uri.port)
@@ -32,10 +32,6 @@ class IssueController < ApplicationController
     request.set_form_data(api_data)
 
     response = http.request(request)
-    response_json = JSON.parse(response.body)
-    issue_data.merge!(:api_token => response_json[0]["token"])
-
-    Issue.create!(issue_data)
 
     redirect_to submitted_path
   end
@@ -46,7 +42,7 @@ class IssueController < ApplicationController
   def get_map_issues
     coords = params[:coords]
     radius_issues = Issue.where(
-      "ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000) AND api_status = 'open'"
+      "ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000) AND status = 'open'"
       )
     factory = RGeo::GeoJSON::EntityFactory.instance
     geo_issues = radius_issues.map{ |i| i.to_geojson }
@@ -54,23 +50,12 @@ class IssueController < ApplicationController
     render json: geoj
   end
 
-  def display_open_issues
-    if params[:updated_at]
-      last_updated = Date.parse(params[:updated_at])
-    else
-      last_updated = 2.weeks.ago
-    end
-
-    open_issues = Issue.where("api_status = ? AND created_at >= ?",
-                              "open",
-                              last_updated)
-    formatted_issues = open_issues.map{ |i| i.to_otp_json }
-    render json: formatted_issues
-  end
-
   private
   def issue_params
-    params.require(:issue).permit(:image_url, :issuepic, :description, :lat, :long)
+    params.require(:issue).permit(:service_request_id, :status, :status_notes,
+                                  :requested_datetime, :updated_datetime,
+                                  :description, :media_url, :address, :lat, :long,
+                                  :lonlat)
   end
 
 end

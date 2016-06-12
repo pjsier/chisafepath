@@ -14,4 +14,8 @@ class HomeController < ApplicationController
     render "submitted"
   end
 
+  def routing
+    render "routing"
+  end
+
 end

@@ -3,11 +3,12 @@
     = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "Chi Safe Path logo"
   %br
   .vertical-center
-    = form_for :issue, url: {action: "create", controller: "issue"}, html: {class: "slim-center"} do |f|
+    = form_for :issue, url: {action: "api_submit", controller: "issue"}, html: {class: "slim-center"} do |f|
       .form-group
         .vertical-center.text-center
           %p Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
         %h3 Geotagged Image
+        = f.label :issuepic, "Upload Image", :class => "btn btn-default"
         = f.file_field :issuepic, accept: "image/*"
         %br
         %span#geo-warn

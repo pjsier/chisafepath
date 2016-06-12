@@ -70,6 +70,10 @@ h3 {
   width: 100%;
 }
 
+#issue_issuepic {
+  display: none;
+}
+
 .img-responsive {
   margin: 0 auto;
   width: 500px;
@@ -110,4 +114,10 @@ h3 {
 
 .tooltip-img {
   width: 150px;
+}
+
+#routing {
+  margin-top: 50px;
+  height: 100%;
+  width: 100%;
 }

@@ -2,15 +2,14 @@ class CreateTables < ActiveRecord::Migration
   def change
     create_table :issues do |t|
       t.timestamps
-      t.datetime :api_created_at
-      t.datetime :api_updated_at
-      t.string :api_id
-      t.string :api_token
-      t.string :api_status
-      t.string :api_status_notes
-      t.string :api_address
-      t.string :api_agency_responsible
+      t.datetime :requested_datetime
+      t.datetime :created_datetime
+      t.string :service_request_id
+      t.string :status
+      t.string :status_notes
+      t.string :address
       t.string :description
+      t.string :media_url
       t.st_point :lonlat, geographic: true
       t.index :lonlat, using: :gist
       t.references :image, index: true
