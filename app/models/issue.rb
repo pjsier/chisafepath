@@ -6,7 +6,9 @@ class Issue < ActiveRecord::Base
       Issue.create(issue_params)
     else
       existing_issue = Issue.find(:service_request_id => issue_params[:service_request_id])
-      existing_issue.update!(issue_params)
+      unless existing_issue.status == issue_params[:status]
+        existing_issue.update!(issue_params)
+      end
     end
   end
 
