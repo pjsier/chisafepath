@@ -10,6 +10,5 @@ Rails.application.routes.draw do
   post 'issue' => 'issue#api_submit'
 
   post 'map_query' => 'issue#get_map_issues', :constraints => {:format=>:json}
-  get 'json_issues' => 'issue#display_open_issues'
-
+  get 'all_issues' => 'issue#all_open_issues'
 end

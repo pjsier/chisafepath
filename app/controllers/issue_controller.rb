@@ -50,6 +50,14 @@ class IssueController < ApplicationController
     render json: geoj
   end
 
+  def all_open_issues
+    open_issues = Issue.where(status: "open")
+    factory = RGeo::GeoJSON::EntityFactory.instance
+    geo_issues = open_issues.map{ |i| i.to_geojson }
+    geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
+    render json: geoj
+  end
+
   private
   def issue_params
     params.require(:issue).permit(:service_request_id, :status, :status_notes,
