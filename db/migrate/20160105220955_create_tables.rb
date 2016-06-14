@@ -3,7 +3,7 @@ class CreateTables < ActiveRecord::Migration
     create_table :issues do |t|
       t.timestamps
       t.datetime :requested_datetime
-      t.datetime :created_datetime
+      t.datetime :updated_datetime
       t.string :service_request_id
       t.string :status
       t.string :status_notes
