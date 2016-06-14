@@ -22,6 +22,7 @@
 *.js.js
 /spec/javascripts/**/*_spec.js
 public/uploads
+public/assets
 .rbenv-vars
 /config/secrets.yml
 

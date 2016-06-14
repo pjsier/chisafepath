@@ -398,6 +398,7 @@ DEPENDENCIES
   rails (= 4.2.5)
   rgeo
   rgeo-geojson
+  sass-rails
   sdoc (~> 0.4.0)
   spring
   therubyracer
