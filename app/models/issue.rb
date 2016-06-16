@@ -2,14 +2,17 @@ class Issue < ActiveRecord::Base
   belongs_to :image
 
   def self.find_or_create_from_params(issue_params)
-    unless Issue.exists?(:service_request_id => issue_params[:service_request_id])
-      Issue.create(issue_params)
+    searched_issue = Issue.where(
+      service_request_id: issue_params[:service_request_id]
+    ).first
+    if searched_issue.nil?
+      searched_issue = Issue.create(issue_params)
     else
-      existing_issue = Issue.find(:service_request_id => issue_params[:service_request_id])
-      unless existing_issue.status == issue_params[:status]
-        existing_issue.update!(issue_params)
+      unless searched_issue.status == issue_params[:status]
+        searched_issue.update!(issue_params)
       end
     end
+    searched_issue
   end
 
   def to_geojson
