@@ -121,3 +121,18 @@ h3 {
   height: 100%;
   width: 100%;
 }
+
+.light-background {
+  background-color: #F8F8F8;
+  border-radius: 10px;
+  padding: 15px 0;
+}
+
+#geo-warn {
+  display: block;
+  margin-top: 15px;
+}
+
+input {
+  border-color: #F8F8F8;
+}

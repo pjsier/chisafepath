@@ -2,7 +2,7 @@
   .vertical-center
     = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "Chi Safe Path logo"
   %br
-  .vertical-center
+  .vertical-center.light-background
     = form_for :issue, url: {action: "api_submit", controller: "issue"}, html: {class: "slim-center"} do |f|
       .form-group
         .vertical-center.text-center
@@ -18,7 +18,7 @@
         = f.hidden_field :lat
         = f.hidden_field :long
       .form-group
-        %h3 Issues
+        %h3 Categories
         = f.select :description, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}
       = f.submit "Submit", :class => "btn btn-default"
       %span#submit-warn
