@@ -4,12 +4,13 @@
     %meta{ charset: "utf-8" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" }
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
+    %link{ :rel => :stylesheet, :type => :"text/css", :href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto+Slab:400,700,300"}
     %title Chi Safe Path
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
   %body
     %nav{ class: "navbar navbar-default navbar-fixed-top"}
-      .container
+      .container-fluid
         %ul{class: "nav navbar-nav"}
           %li
             %a{href: "/"} Home
