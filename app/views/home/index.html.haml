@@ -4,7 +4,7 @@
     = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :id => "main-logo", :alt => "Chi Safe Path logo"
   %br
   .row-fluid
-    .col-sm-8.col-sm-offset-2.light-background
+    .col-sm-6.col-sm-offset-3.light-background
       = form_for :issue, url: {action: "api_submit", controller: "issue"} do |f|
         .row-fluid
           .form-group
