@@ -15,7 +15,7 @@ class HomeController < ApplicationController
   end
 
   def routing
-    render "routing"
+    render "routing", layout: false
   end
 
 end
