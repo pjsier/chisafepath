@@ -5,11 +5,10 @@
   %br
   .row-fluid
     .col-sm-8.col-sm-offset-2.light-background
-      = form_for :issue, url: {action: "api_submit", controller: "issue"}, html: {class: "slim-center"} do |f|
+      = form_for :issue, url: {action: "api_submit", controller: "issue"} do |f|
         .row-fluid
           .form-group
-            .vertical-center.text-center
-              %p.intro-text Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
+            %p.intro-text.text-center Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
             %h3 Geotagged Image
             .row-fluid
               = f.label :issuepic, "Upload Image", :class => "btn btn-default"
