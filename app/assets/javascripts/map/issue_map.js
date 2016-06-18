@@ -6,13 +6,6 @@ var center = new L.LatLng(41.878114, -87.629798);
 map.setView(center, 12);
 map.addLayer(osm);
 
-// Set options for geocoder control
-var options = {
-  latlng: center,
-  position: 'topright',
-  expanded: true
-};
-
 var AltIcon = L.Icon.Default.extend({
     options: {
         iconUrl: altIconUrl
@@ -20,6 +13,17 @@ var AltIcon = L.Icon.Default.extend({
 });
 
 var altIcon = new AltIcon();
+
+// Set options for geocoder control
+var options = {
+  latlng: center,
+  position: 'topright',
+  expanded: true,
+  pointIcon: false,
+  polygonIcon: false,
+  markers: false
+};
+
 
 var geocoder = L.control.geocoder("search-F2Xk0nk", options);
 geocoder.addTo(map);

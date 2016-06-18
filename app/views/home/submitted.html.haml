@@ -1,14 +1,16 @@
-.container.main-page
-  .vertical-center
+.container-fluid.main-page
+  .row-fluid.first-row
     = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "ChiSafePath logo"
   %br
-  .vertical-center.text-center
-    %p Your issue has been successfully submitted
-    %br
-    %a.btn.btn-default.text-center{href: "/routing"} Get Directions
-    %br
-    %br
-    %a.btn.btn-default.text-center{href: "/"} Submit Another Issue
-    %br
-    %br
-    %a.btn.btn-default.text-center{href: "/map"} View Map
+  .row-fluid
+    .col-sm-8.col-sm-offset-2.light-background.text-center
+      .row-fluid
+        %p.intro-text Your issue has been successfully submitted
+      .row-fluid
+        %a.btn.btn-default.text-center{href: "/routing"} Get Directions
+      %br
+      .row-fluid
+        %a.btn.btn-default.text-center{href: "/"} Submit Another Issue
+      %br
+      .row-fluid
+        %a.btn.btn-default.text-center{href: "/map"} View Map

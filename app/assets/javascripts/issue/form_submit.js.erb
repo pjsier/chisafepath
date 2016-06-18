@@ -14,6 +14,7 @@ $(':file').change(function(){
       var longref = EXIF.getTag(file, "GPSLongitudeRef");
       var latlong = dms2dec(lat, latref, long, longref);
       setLatLong(latlong);
+      $('#geo-warn').text("Location successfully added!");
     }
   });
 });

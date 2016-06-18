@@ -1,26 +1,28 @@
-%div{class: "container main-page"}
-  %div{class: "vertical-center"}
+.container-fluid.main-page
+  .row-fluid.first-row
     = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :alt => "ChiSafePath logo"
   %br
-  .slim-center
-    %h3{class: "text-center"} About Chi Safe Path
-    %div Sidewalks are an integral part of how we get where we need to go, whether |
-    it's simply down the block to get a gallon of milk or all the way across town. |
-    They enable us to use other forms of transportation: buses, trains and even |
-    our cars. When sidewalks and curb cuts are in need of repair, they have the |
-    potential to stop us in our tracks. |
-    %br
-    %div This is especially true for those who may use wheelchairs, or other forms |
-    of mobility assistance. What may be a minor inconvenience for many could result |
-    in hours of additional travel time for someone who is differently abled. |
-    %br
-    %div Chi Safe Path allows anyone with access to the internet to report any hazards |
-    on sidewalks or other public walkways directly to the city of Chicago's 311 |
-    Services. |
-    %br
-    %div Additionally, the app allows users to view previously reported sidewalks, |
-    making it easier to get from point A to point B without worrying as much about |
-    what could be in between. |
-    %br
-    %div
-      %a{ :href => "https://github.com/pjsier/chisafepath" } This project is currently under development on Github
+  .row-fluid
+    .col-sm-8.col-sm-offset-2.light-background
+      .row-fluid
+        %h3.text-center About Chi Safe Path
+      .row-fluid Sidewalks are an integral part of how we get where we need to go, whether |
+      it's simply down the block to get a gallon of milk or all the way across town. |
+      They enable us to use other forms of transportation: buses, trains and even |
+      our cars. When sidewalks and curb cuts are in need of repair, they have the |
+      potential to stop us in our tracks. |
+      %br
+      .row-fluid This is especially true for those who may use wheelchairs, or other forms |
+      of mobility assistance. What may be a minor inconvenience for many could result |
+      in hours of additional travel time for someone who is differently abled. |
+      %br
+      .row-fluid Chi Safe Path allows anyone with access to the internet to report any hazards |
+      on sidewalks or other public walkways directly to the city of Chicago's 311 |
+      Services. |
+      %br
+      .row-fluid Additionally, the app allows users to view previously reported sidewalks, |
+      making it easier to get from point A to point B without worrying as much about |
+      what could be in between. |
+      %br
+      .row-fluid
+        %a{ :href => "https://github.com/pjsier/chisafepath" } This project is currently under development on Github

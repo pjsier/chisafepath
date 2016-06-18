@@ -1,3 +1,5 @@
+/* GENERAL */
+
 html {
   position: relative;
   height: 100%;
@@ -5,25 +7,49 @@ html {
 
 body {
   align: center;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Open Sans", Helvetica, Arial, sans-serif;
   color: #47474a;
   background-color: #b3ddf2;
-  height: 92%;
+  height: 100%;
 }
 
 a {
   color: #176FBB;
 }
 
-#map-container {
-  height: 100%;
-  margin-top: 50px;
+h3 {
+  margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .main-page {
-  margin-top: 50px;
-  margin-bottom: 60px;
+  margin-bottom: 15px;
 }
+
+/* NAV */
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.navbar-collapse.collapse {
+  display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+  float: left !important;
+}
+
+
+.navbar-nav.navbar-right:last-child {
+  margin-right: -15px !important;
+}
+
+.navbar-right {
+  float: right!important;
+}
+
+/* TYPEAHEAD */
 
 span.twitter-typeahead, input.typeahead {
   width: 100%;
@@ -45,30 +71,24 @@ span.twitter-typeahead, input.typeahead {
   background-color: #dcedf4;
 }
 
-.navbar-collapse.collapse {
-display: block!important;
-}
+/* MAP */
 
-.navbar-nav>li, .navbar-nav {
-float: left !important;
-}
-
-
-.navbar-nav.navbar-right:last-child {
-margin-right: -15px !important;
-}
-
-.navbar-right {
-float: right!important;
-}
-
-h3 {
-  margin-bottom: 15px;
-}
-
-#other_issue {
+#map-container {
+  position: absolute;
+  top: 50px;
+  bottom: 0px;
   width: 100%;
 }
+
+#map {
+  height: 100%;
+}
+
+.tooltip-img {
+  width: 150px;
+}
+
+/* ISSUE SUBMISSION */
 
 #issue_issuepic {
   display: none;
@@ -77,47 +97,50 @@ h3 {
 .img-responsive {
   margin: 0 auto;
   width: 500px;
-  margin-top: 35px;
 }
 
-.slim-center {
-  max-width: 500px;
-  align: auto;
-  margin: auto;
-}
-
-#map {
-  height: 100%;
-}
-
-.leaflet-custom-button {
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: white;
-  margin: 0;
-  margin-right: 3px;
-  float: right;
-}
-
-.leaflet-custom-button:hover, .leaflet-custom-button:active {
-  background-color: #EEEEEE;
-}
-
-#geo_button_res {
-  padding-left: 10px;
+.first-row {
+  margin-top: 15px;
 }
 
 #submit_warn {
   padding-left: 10px;
 }
 
-.tooltip-img {
-  width: 150px;
+.light-background {
+  background-color: #F8F8F8;
+  border-radius: 10px;
+  padding: 0 25px 25px 25px;
+}
+
+.intro-text {
+  font-weight: 600;
+  padding-top: 10px;
+}
+
+input {
+  border-color: #F8F8F8;
+}
+
+.btn {
+  font-weight: 600;
+}
+
+#geo-warn {
+  display: block;
+  margin-top: 15px;
+}
+
+/* ROUTING */
+
+#routing-container {
+  position: absolute;
+  top: 50px;
+  bottom: 5px;
+  width: 100%;
 }
 
 #routing {
-  margin-top: 50px;
   height: 100%;
   width: 100%;
 }
