@@ -452,7 +452,7 @@ function renderLegsMap(legGeometries) {
     polylinePoints = polylinePoints.concat(polylineLocations);
   }
 
-  map = L.map('map');
+  map = L.map('route-map');
   var osmUrl='http://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png';
   var osmAttrib='Data from <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors. Tiles from <a href="http://www.thunderforest.com/transport/">Andy Allan</a>';
   var osm = new L.TileLayer(osmUrl, {minZoom: 10, maxZoom: 18, attribution: osmAttrib});
@@ -472,11 +472,11 @@ function renderLegsMap(legGeometries) {
 }
 
 function toggleMapDisplay() {
-  $('#map').toggle('slow', function() {
+  $('#route-map').toggle('slow', function() {
     // Have to wait for resizing and then update the map so it doesn't look odd
     map.invalidateSize();
     map.fitBounds(routePolyline.getBounds());
-    $('#map').ScrollTo({
+    $('#route-map').ScrollTo({
         duration: 200,
         easing: 'linear'
     });
@@ -492,10 +492,10 @@ function renderItinerary(idx,moveto){
         legGeometries.push(leg.legGeometry.points);
     });
     var mapToggleButton = $('<button type="button"' +
-        ' class="btn btn-primary" id="map-toggle" style="display:none;"' +
+        ' class="btn btn-primary" id="map-toggle"' +
         ' onclick="toggleMapDisplay()">Toggle Route Map</button>');
     $('#planner-leg-list').append(mapToggleButton);
-    $('#planner-leg-list').append("<div id='map'></div>")
+    $('#planner-leg-list').append("<div id='route-map' style='display:none;'></div>")
     renderLegsMap(legGeometries);
 
     if ( moveto && $(this).width() < 981 ) {

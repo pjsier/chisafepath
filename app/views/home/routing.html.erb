@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Chi Safe Path</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <%= stylesheet_link_tag "routing", :media => "all" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
   </head>
   <body>
     <nav class='navbar navbar-default'>
@@ -30,25 +30,25 @@
       <div class="plannerpanel planner-options planner-form" id="planner-options-panel">
         <form role="form" class="planner-options-form validateDontSubmit" id="planner-options-form">
           <div class="input-group input-group-lg planner-options-inputgroup-from" id="planner-options-inputgroup-from">
-            <label class="input-group-addon planner-options-input-addon required label-from" for="planner-options-from">Van</label>
-            <input id="planner-options-from" type="text" title="Van" aria-required="true" class="form-control" placeholder="Station, halte, adres" x-webkit-speech="x-webkit-speech" required="required" />
+            <label class="input-group-addon planner-options-input-addon required label-from" for="planner-options-from">From</label>
+            <input id="planner-options-from" type="text" title="Van" aria-required="true" class="form-control" placeholder="Train station, stop or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-from-latlng" type="hidden" />
           </div>
           <div class="input-group input-group-lg hidden" aria-hidden="true" id="planner-options-inputgroup-via">
             <label class="input-group-addon planner-options-input-addon label-via" for="planner-options-via">Via</label>
-            <input id="planner-options-via" type="text" title="Via" aria-required="true" class="form-control" placeholder="Station, halte, adres" x-webkit-speech="x-webkit-speech" />
+            <input id="planner-options-via" type="text" title="Via" aria-required="true" class="form-control" placeholder="Train station, stop or address" x-webkit-speech="x-webkit-speech" />
             <div id="planner-options-via-autocompletecontainer"></div>
             <input id="planner-options-via-latlng" type="hidden" />
           </div>
           <div class="input-group input-group-lg planner-options-inputgroup-dest" id="planner-options-inputgroup-dest">
-            <label class="input-group-addon planner-options-input-addon required label-dest" for="planner-options-dest">Naar</label>
-            <input id="planner-options-dest" type="text" title="Naar" aria-required="true" class="form-control" placeholder="Station, halte, adres" x-webkit-speech="x-webkit-speech" required="required" />
+            <label class="input-group-addon planner-options-input-addon required label-dest" for="planner-options-dest">To</label>
+            <input id="planner-options-dest" type="text" title="Naar" aria-required="true" class="form-control" placeholder="Train station, stop or address" x-webkit-speech="x-webkit-speech" required="required" />
             <input id="planner-options-dest-latlng" type="hidden" />
           </div>
           <div class="row">
             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
               <div class="input-group input-group-lg planner-options-dateinput" id="planner-options-inputgroup-time">
-                <label class="input-group-addon planner-options-input-addon label-time" for="planner-options-time">Tijd</label>
+                <label class="input-group-addon planner-options-input-addon label-time" for="planner-options-time">Time</label>
                 <input id="planner-options-time" type="time" title="Tijd" aria-described-by="planner-options-timeformat" aria-required="true" class="form-control" required="required" />
                 <div class="input-group-addon planner-options-input-addon" id="planner-options-timeformat">hh:mm</div>
               </div>
@@ -58,7 +58,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
               <div class="input-group input-group-lg planner-options-dateinput" id="planner-options-inputgroup-date">
-                <label class="input-group-addon planner-options-input-addon label-date" for="planner-options-date">Datum</label>
+                <label class="input-group-addon planner-options-input-addon label-date" for="planner-options-date">Date</label>
                 <input id="planner-options-date" type="text" title="datum" aria-label="Datumkiezer, gebruik Ctrl en pijltjes om te navigeren" aria-required="true" class="form-control" required="required"  />
               </div>
             </div>
@@ -66,7 +66,7 @@
           <div id="planner-options-date-messages" class="accessibility-helper" aria-live="assertive" aria-atomic="true" aria-relevant="additions"></div>
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-              <button class="btn-default btn-lg planner-options-submitbutton label-plan" id="planner-options-submit" type="submit" data-loading-text="Bezig...">Plan reis</button>
+              <button class="btn-default btn-lg planner-options-submitbutton label-plan" id="planner-options-submit" type="submit" data-loading-text="Bezig...">Plan trip</button>
             </div>
           </div>
         </form>
@@ -74,7 +74,7 @@
           <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" id="planner-options-desc"></div>
           <div class="clearfix visible-xs"></div>
           <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
-            <button class="btn-default btn-lg hidden-print label-edit" id="planner-options-edit" type="submit" onclick="showForm();">Wijzig reis</button>
+            <button class="btn-default btn-lg hidden-print label-edit" id="planner-options-edit" type="submit" onclick="showForm();">Change trip</button>
           </div>
         </div>
       </div>
