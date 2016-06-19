@@ -76,7 +76,12 @@ span.twitter-typeahead, input.typeahead {
 #map-container {
   position: absolute;
   top: 50px;
-  bottom: 0px;
+  bottom: 0;
+  width: 100%;
+}
+
+#main-map-container {
+  height: 550px;
   width: 100%;
 }
 

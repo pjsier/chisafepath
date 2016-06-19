@@ -63,7 +63,7 @@ class IssueController < ApplicationController
     params.require(:issue).permit(:service_request_id, :status, :status_notes,
                                   :requested_datetime, :updated_datetime,
                                   :description, :media_url, :address, :lat, :long,
-                                  :lonlat)
+                                  :lonlat, :issuepic)
   end
 
 end

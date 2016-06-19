@@ -2,6 +2,10 @@ class HomeController < ApplicationController
   def index
   end
 
+  def issue
+    render "issue"
+  end
+  
   def about
     render "about"
   end

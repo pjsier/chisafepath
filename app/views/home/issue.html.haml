@@ -1,0 +1,29 @@
+.container-fluid.main-page
+  .row-fluid.first-row
+    .col-sm-12
+    = image_tag  "csp_logo.svg", :class => "text-center img-responsive", :id => "main-logo", :alt => "Chi Safe Path logo"
+  %br
+  .row-fluid
+    .col-sm-6.col-sm-offset-3.light-background
+      = form_for :issue, url: {action: "api_submit", controller: "issue"} do |f|
+        .row-fluid
+          .form-group
+            %p.intro-text.text-center Upload any image with geotags, get your current location, or input an address to report hazardous sidewalks in the city of Chicago
+            %h3 Geotagged Image
+            .row-fluid
+              = f.label :issuepic, "Upload Image", :class => "btn btn-default"
+              = f.file_field :issuepic, accept: "image/*"
+              %span#geo-warn
+        .row-fluid
+          .form-group
+            %h3 Input Address
+            %input.typeahead.form-control#addr-search{type: "text", placeholder: "Enter address..."}
+            = f.hidden_field :lat
+            = f.hidden_field :long
+        .row-fluid
+          .form-group
+            %h3 Categories
+            = f.select :description, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}
+          = f.submit "Submit", :class => "btn btn-default"
+          %span#submit-warn
+= javascript_include_tag "issue"
