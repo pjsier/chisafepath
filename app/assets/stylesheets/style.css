@@ -149,3 +149,9 @@ input {
   height: 100%;
   width: 100%;
 }
+
+@media (max-width: 600px) {
+  .nav>li>a {
+    padding: 10px 10px;
+  }
+}
