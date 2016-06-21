@@ -334,6 +334,7 @@ function prettyDateEpoch(epoch){
 
 function timeFromEpoch(epoch){
   var date = new Date(epoch);
+  date.setTime(date.valueOf() - 60000 * date.getTimezoneOffset());
   var minutes = date.getMinutes();
   var hours = date.getHours();
   if (date.getSeconds()>= 30){
