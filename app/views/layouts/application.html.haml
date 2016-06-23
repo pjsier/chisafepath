@@ -4,6 +4,22 @@
     %meta{ charset: "utf-8" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" }
     %meta{ content: "yes", name: "apple-mobile-web-app-capable" }
+
+    %meta{ content: "Report accessibility hazards to Chicago's 311 system, see what's been reported, and get directions avoiding known issues", name: "description" }
+    %meta{ content: "Chi Safe Path", property: "og:site_name" }
+    %meta{ content: "Chi Safe Path", property: "og:title" }
+    %meta{ content: "website", property: "og:type" }
+    %meta{ content: "Report accessibility hazards to Chicago's 311 system, see what's been reported, and get directions avoiding known issues", name: "og:description" }
+    %meta{ content: "http://chisafepath.com", property: "og:url" }
+    %meta{ content: asset_path("csp_logo.svg"), property: "og:image" }
+    %meta{ name: "twitter:card", content: "summary" }
+    %meta{ name: "twitter:site", content: "Chi Safe Path" }
+    %meta{ name: "twitter:creator", content: "Chi Safe Path" }
+    %meta{ name: "twitter:title", content: "Chi Safe Path" }
+    %meta{ name: "twitter:url", content: "http://chisafepath.com" }
+    %meta{ name: "twitter:description", content: "Report accessibility hazards to Chicago's 311 system, see what's been reported, and get directions avoiding known issues" }
+    %meta{ name: "twitter:image:src", content: asset_path("csp_logo.svg") }
+
     %link{ :rel => :stylesheet, :type => :"text/css", :href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Roboto+Slab:400,700,300"}
     %title Chi Safe Path
     = stylesheet_link_tag "application", media: "all"
@@ -18,8 +34,6 @@
             %a{href: "/routing"} Directions
           %li
             %a{href: "/issue"} Report
-          %li
-            %a{href: "/map"} Map
           %li
             %a{href: "/about"} About
     = yield

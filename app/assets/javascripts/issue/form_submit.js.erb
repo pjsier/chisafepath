@@ -49,58 +49,58 @@ function getLocation() {
   }
 }
 
-var API_RATE_LIMIT = 500;
 var inputElement = document.getElementById("addr-search");
 var mapzen_key = "search-F2Xk0nk";
 var auto_url = 'https://search.mapzen.com/v1/autocomplete';
 var search_url = 'https://search.mapzen.com/v1/search';
+
+var full_auto_url = auto_url + "?api_key=" + mapzen_key + "&focus.point.lon=-87.63&focus.point.lat=41.88&text=";
+
 var addr_matches = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace("label"),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
-  local: []
+  remote: {
+      url: full_auto_url,
+      replace: function() {
+        var val = inputElement.value;
+        var processed_url = full_auto_url + encodeURIComponent(val);
+        return processed_url;
+      },
+      transform: function(response) {
+        response.features.map(function(addr) {
+            addr.label = addr.properties.label;
+            return addr;
+          });
+        return response.features;
+      }
+  }
 });
 
+addr_matches.initialize();
+
 $('.typeahead').typeahead({
-  highlight: true
+  highlight: true,
+  minLength: 3
 },
 {
   name: 'addresses',
-  displayKey: 'name',
+  displayKey: 'label',
   source: addr_matches
 });
 
-function searchAddress(submitAddr) {
-  var params = {
-    api_key: mapzen_key,
-    "focus.point.lon": -87.63,
-    "focus.point.lat": 41.88,
-    text: inputElement.value
-  };
-  if (inputElement.value.length > 0) {
-    callMapzen(params, auto_url);
-  }
-  else if (inputElement.value.length > 0) {
-    callMapzen(params, search_url);
-  }
-};
-
-function callMapzen(search_params, url) {
+function searchMapzen() {
   $.ajax({
-    url: url,
-    data: search_params,
+    url: search_url,
+    data: {
+      api_key: mapzen_key,
+      "focus.point.lon": -87.63,
+      "focus.point.lat": 41.88,
+      text: inputElement.value
+    },
     dataType: "json",
     success: function(data) {
-      if (url === auto_url && data.features.length > 0) {
-        addr_matches.clear();
-        addr_matches.add(data.features.map(function(addr) {
-          addr.name = addr.properties.label;
-          return addr;
-        }));
-      }
-      else if (url === search_url) {
-        if (data && data.features) {
+      if (data && data.features) {
           setLatLong(data.features[0].geometry.coordinates);
-        }
       }
     },
     error: function(e) {
@@ -109,52 +109,16 @@ function callMapzen(search_params, url) {
   });
 }
 
-inputElement.addEventListener('keyup', throttle(searchAddress, API_RATE_LIMIT));
 $('.typeahead').bind('typeahead:select', function(e, data) {
   setLatLong(data.geometry.coordinates.reverse());
 });
 
 inputElement.addEventListener('keyup', function (e) {
   if (e.keyCode == 13) {
-    searchAddress(true);
+    searchMapzen();
   }
 });
 
 $("#loc-button").click(function() {
   getLocation();
 });
-
-/*
-* throttle Utility function (borrowed from underscore)
-*/
-function throttle (func, wait, options) {
-  var context, args, result;
-  var timeout = null;
-  var previous = 0;
-  if (!options) options = {};
-  var later = function () {
-    previous = options.leading === false ? 0 : new Date().getTime();
-    timeout = null;
-    result = func.apply(context, args);
-    if (!timeout) context = args = null;
-  };
-  return function () {
-    var now = new Date().getTime();
-    if (!previous && options.leading === false) previous = now;
-    var remaining = wait - (now - previous);
-    context = this;
-    args = arguments;
-    if (remaining <= 0 || remaining > wait) {
-      if (timeout) {
-        clearTimeout(timeout);
-        timeout = null;
-      }
-      previous = now;
-      result = func.apply(context, args);
-      if (!timeout) context = args = null;
-    } else if (!timeout && options.trailing !== false) {
-      timeout = setTimeout(later, remaining);
-    }
-    return result;
-  };
-};

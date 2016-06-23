@@ -47,9 +47,16 @@ function handleGeo(geo_resp) {
       var popup_content = "<b>Created:</b> " + feature.properties.create_time + "<br>" +
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
                           "<b>Status:</b> " + feature.properties.status;
+      if (feature.properties.status_notes !== undefined) {
+        popup_content += "<br><b>Status Notes:</b> " + feature.properties.status_notes;
+      }
+      if (feature.properties.description !== undefined) {
+        popup_content += "<br><b>Description:</b> " + feature.properties.description;
+      }
       if (feature.properties.image_url !== undefined) {
         popup_content += "<br><img class='tooltip-img' src='" + feature.properties.image_url + "'>";
       }
+
       layer.bindPopup(popup_content);
     }
   });
