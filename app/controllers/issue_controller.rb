@@ -10,7 +10,7 @@ class IssueController < ApplicationController
     request = Net::HTTP::Post.new(uri)
 
     api_data = {
-      :api_key => Rails.application.secrets.chi_311_key,
+      :api_key => ENV["CHI_311_KEY"],
       :service_code => "4ffa971e6018277d4000000b",
       :lat => issue_params[:lat],
       :long => issue_params[:lon],
