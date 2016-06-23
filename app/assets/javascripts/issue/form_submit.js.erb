@@ -13,15 +13,15 @@ $(':file').change(function(){
       var long = EXIF.getTag(file, "GPSLongitude");
       var longref = EXIF.getTag(file, "GPSLongitudeRef");
       var latlong = dms2dec(lat, latref, long, longref);
-      setLatLong(latlong);
+      setLatLon(latlong);
       $('#geo-warn').text("Location successfully added!");
     }
   });
 });
 
-function setLatLong(latlong) {
-  document.getElementById("issue_lat").value = latlong[0];
-  document.getElementById("issue_long").value = latlong[1];
+function setLatLon(latlon) {
+  document.getElementById("issue_lat").value = latlon[0];
+  document.getElementById("issue_lon").value = latlon[1];
 }
 
 /* Form submit main function */
@@ -40,7 +40,7 @@ function getLocation() {
   {
     document.getElementById('geo-button-res').innerHTML = "<img height='30px' src='<%= asset_path('rolling.gif') %>' />";
     navigator.geolocation.getCurrentPosition(function(position) {
-      setLatLong([position.coords.latitude, position.coords.longitude]);
+      setLatLon([position.coords.latitude, position.coords.longitude]);
       document.getElementById('geo-button-res').innerHTML = "Location recorded";
     });
   }
@@ -100,7 +100,7 @@ function searchMapzen() {
     dataType: "json",
     success: function(data) {
       if (data && data.features) {
-          setLatLong(data.features[0].geometry.coordinates);
+          setLatLon(data.features[0].geometry.coordinates);
       }
     },
     error: function(e) {
@@ -110,7 +110,7 @@ function searchMapzen() {
 }
 
 $('.typeahead').bind('typeahead:select', function(e, data) {
-  setLatLong(data.geometry.coordinates.reverse());
+  setLatLon(data.geometry.coordinates.reverse());
 });
 
 inputElement.addEventListener('keyup', function (e) {

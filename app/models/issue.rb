@@ -16,14 +16,22 @@ class Issue < ActiveRecord::Base
   end
 
   def to_geojson
-    factory = RGeo::GeoJSON::EntityFactory.instance
-    issue_items = {
-      status: self.status,
-      create_time: self.requested_datetime.strftime("%-m-%-d-%y %I:%M%P"),
-      update_time: self.updated_datetime.strftime("%-m-%-d-%y %I:%M%P")
-    }
-    issue_items.merge!(image_url: self.media_url) unless self.media_url.blank?
+    geojson_issue = {
+  		type: "Feature",
+  		geometry: {
+  			type: "Point",
+  			coordinates: [self.lon, self.lat]
+  		},
+  		properties: {
+        status: self.status,
+        create_time: self.requested_datetime.strftime("%-m-%-d-%y %I:%M%P"),
+        update_time: self.updated_datetime.strftime("%-m-%-d-%y %I:%M%P")
+  		}
+  	}
 
-    factory.feature(self.lonlat, self.id, issue_items)
+    geojson_issue.merge!(image_url: self.media_url) unless self.media_url.blank?
+    geojson_issue.merge!(description: self.description) unless self.description.blank?
+
+    geojson_issue
   end
 end

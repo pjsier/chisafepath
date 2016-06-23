@@ -3,18 +3,7 @@ Web app started at Chi Hack Night allowing people to submit 311 requests about
 sidewalk accessibility hazards to the City of Chicago 311 API, and get directions
 that avoid reported issues.
 
-## Local Docker deploy (Mac OSX)
-```
-docker-machine create -d virtualbox chisafepath
-docker-compose build
-docker-compose run chisafepath rake db:setup RAILS_ENV=development
-docker-compose up
-```
-
-## Local Setup without Docker
-PostGIS is required for the database (this comes with [Postgres.app](http://postgresapp.com/)
-for Mac)
-
+## Local Setup
 ```
 rake db:setup RAILS_ENV=development
 rails s

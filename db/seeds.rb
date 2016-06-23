@@ -13,7 +13,8 @@ api_url = "http://311api.cityofchicago.org/open311/v2/requests.json"
     r_params = {
       service_request_id: r["service_request_id"],
       status: r["status"],
-      lonlat: "POINT(#{r["long"]} #{r["lat"]})",
+      lon: r["long"],
+      lat: r["lat"],
       requested_datetime: r["requested_datetime"],
       updated_datetime: r["updated_datetime"],
       address: r["address"]

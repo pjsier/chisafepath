@@ -10,22 +10,14 @@ class CreateTables < ActiveRecord::Migration
       t.string :address
       t.string :description
       t.string :media_url
-      t.st_point :lonlat, geographic: true
-      t.index :lonlat, using: :gist
+      t.float  :lon
+      t.float  :lat
       t.references :image, index: true
     end
 
     create_table :images do |t|
       t.string  :url
       t.timestamps
-    end
-
-    create_table :locations do |t|
-      t.timestamps
-      t.string :name
-      t.string :level
-      t.geometry :geom
-      t.index :geom, using: :gist
     end
   end
 end

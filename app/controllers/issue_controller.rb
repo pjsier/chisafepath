@@ -13,14 +13,15 @@ class IssueController < ApplicationController
       :api_key => Rails.application.secrets.chi_311_key,
       :service_code => "4ffa971e6018277d4000000b",
       :lat => issue_params[:lat],
-      :long => issue_params[:long],
+      :long => issue_params[:lon],
       "attribute[WHEREIS1]" => "SIDEWALK",
       :description => issue_params[:description]
     }
 
     issue_data = {
       description: issue_params[:description],
-      lonlat: "POINT(#{issue_params[:long]} #{issue_params[:lat]})"
+      lon: issue_params[:lon],
+      lat: issue_params[:lat]
     }
 
     unless issue_params[:issuepic].blank?
@@ -39,31 +40,24 @@ class IssueController < ApplicationController
   def index
   end
 
-  def get_map_issues
-    coords = params[:coords]
-    radius_issues = Issue.where(
-      "ST_DWithin(lonlat, 'POINT(#{coords[0]} #{coords[1]})', 1000) AND status = 'open'"
-      )
-    factory = RGeo::GeoJSON::EntityFactory.instance
-    geo_issues = radius_issues.map{ |i| i.to_geojson }
-    geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
-    render json: geoj
-  end
-
   def all_open_issues
     open_issues = Issue.where(status: "open")
-    factory = RGeo::GeoJSON::EntityFactory.instance
-    geo_issues = open_issues.map{ |i| i.to_geojson }
-    geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
-    render json: geoj
+    geojson_issues = {
+      type: "FeatureCollection",
+      features: []
+    }
+    # factory = RGeo::GeoJSON::EntityFactory.instance
+    geojson_issues[:features] = open_issues.map{ |i| i.to_geojson }
+    #geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
+    render json: geojson_issues
   end
 
   private
   def issue_params
     params.require(:issue).permit(:service_request_id, :status, :status_notes,
                                   :requested_datetime, :updated_datetime,
-                                  :description, :media_url, :address, :lat, :long,
-                                  :lonlat, :issuepic)
+                                  :description, :media_url, :address, :lat, :lon,
+                                  :issuepic)
   end
 
 end

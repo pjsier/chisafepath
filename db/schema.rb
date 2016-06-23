@@ -13,10 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20160604225216) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "postgis"
-
   create_table "images", force: :cascade do |t|
     t.string   "url"
     t.datetime "created_at"
@@ -34,21 +30,11 @@ ActiveRecord::Schema.define(version: 20160604225216) do
     t.string    "address"
     t.string    "description"
     t.string    "media_url"
-    t.geography "lonlat",                 limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.float     "lon"
+    t.float     "lat"
     t.integer   "image_id"
   end
 
   add_index "issues", ["image_id"], name: "index_issues_on_image_id", using: :btree
-  add_index "issues", ["lonlat"], name: "index_issues_on_lonlat", using: :gist
-
-  create_table "locations", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.string   "level"
-    t.geometry "geom",       limit: {:srid=>0, :type=>"geometry"}
-  end
-
-  add_index "locations", ["geom"], name: "index_locations_on_geom", using: :gist
 
 end

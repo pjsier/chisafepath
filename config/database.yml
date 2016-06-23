@@ -1,5 +1,5 @@
 development: &default
-  adapter: postgis
+  adapter: postgresql
   encoding: unicode
   database: chisafepath_development
   pool: 5
@@ -10,11 +10,11 @@ development: &default
   port: 5432
 
 production:
-  adapter: postgis
+  adapter: postgresql
   encoding: unicode
-  database: <%= Rails.application.secrets.prod_db_name %>
-  host: <%= Rails.application.secrets.prod_db_host %>
+  database: chisafepath_production
   pool: 5
-  username: <%= Rails.application.secrets.prod_db_username %>
-  password: <%= Rails.application.secrets.prod_db_password %>
+  username: <%= ENV['USERNAME'] %>
+  password: <%= ENV['PASSWORD'] %>
+  host: <%= ENV['IP'] %>
   min_messages: WARNING

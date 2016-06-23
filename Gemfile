@@ -13,13 +13,10 @@ gem "haml-rails"
 gem "turbolinks"
 gem "activeadmin", github: "activeadmin"
 gem "formtastic"
-gem "rgeo"
-gem 'activerecord-postgis-adapter'
 gem "leaflet-rails"
 gem "twitter-bootstrap-rails"
 gem 'twitter-typeahead-rails'
 gem 'whenever', :require => false
-gem 'rgeo-geojson'
 gem 'mini_magick'
 gem 'fog'
 gem 'fog-aws'
