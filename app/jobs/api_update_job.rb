@@ -24,9 +24,9 @@ class ApiUpdateJob < ActiveJob::Base
         address: r["address"]
       }
 
-      r_params[:status_notes] if r["status_notes"]
-      r_params[:description] if r["description"]
-      r_params[:media_url] if r["media_url"]
+      r_params[:status_notes] = r["status_notes"] unless r["status_notes"].nil?
+      r_params[:description] = r["description"] unless r["description"].nil?
+      r_params[:media_url] = r["media_url"] unless r["media_url"].nil?
 
       Issue.find_or_create_from_params(r_params)
     }
