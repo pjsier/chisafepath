@@ -218,6 +218,7 @@ GEM
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
+    honeybadger (2.6.0)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -381,6 +382,7 @@ DEPENDENCIES
   fog-aws
   formtastic
   haml-rails
+  honeybadger
   jquery-rails
   leaflet-rails
   mini_magick
