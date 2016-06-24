@@ -24,7 +24,6 @@
 public/uploads
 public/assets
 .rbenv-vars
-/config/secrets.yml
 
 Procfile.local
 dump.rdb
