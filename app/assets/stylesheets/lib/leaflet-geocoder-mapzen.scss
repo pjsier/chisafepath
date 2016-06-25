@@ -184,10 +184,10 @@ only screen and (-o-min-device-pixel-ratio: 2/1),
 only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (min-device-pixel-ratio: 2) {
   .leaflet-pelias-search-icon {
-    background-image: url(image-path('search@2x.png'));
+    background-image: url(image-path('search.png'));
   }
   .leaflet-pelias-search-icon.leaflet-pelias-loading {
-    background-image: url(image-path('loading@2x.gif'));
+    background-image: url(image-path('loading.gif'));
   }
 }
 

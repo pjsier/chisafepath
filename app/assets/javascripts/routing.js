@@ -12,7 +12,6 @@
 //
 //= require turbolinks
 //= require ./routing/modernizr.custom.05247
-//= require ./routing/jquery.min
 //= require ./routing/jquery-ui-1.10.4.custom.min
 //= require ./routing/bootstrap.min
 //= require leaflet

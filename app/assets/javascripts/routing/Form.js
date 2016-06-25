@@ -98,7 +98,7 @@ var mapzen_geocoder = function( request, response ) {
 
 
 //var Geocoder = Geocoder || {};
-var geocoder = mapzen_geocoder;
+//var geocoder = mapzen_geocoder;
 
 switchLocale();
 
@@ -734,87 +734,86 @@ function getTime(){
 }
 
 function setupAutoComplete(){
-    $( "#planner-options-from" ).autocomplete({
-        autoFocus: true,
-        minLength: 3,
-        //appendTo: "#planner-options-from-autocompletecontainer",
-        messages : Locale.autocompleteMessages,
-        source: geocoder,
-        search: function( event, ui ) {
-            $( "#planner-options-from-latlng" ).val( "" );
-        },
-        focus: function( event, ui ) {
-            //$( "#planner-options-from" ).val( ui.item.label );
-            //$( "#planner-options-from-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        select: function( event, ui ) {
-            $( "#planner-options-from" ).val( ui.item.label );
-            $( "#planner-options-from-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        response: function( event, ui ) {
-           if ( ui.content.length === 1 &&
-                ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-from" ).val().toLowerCase() ) === 0 ) {
-              $( "#planner-options-from" ).val( ui.content[0].label );
-              $( "#planner-options-from-latlng" ).val( ui.content[0].latlng );
-           }
-        }
+  var auto_url = 'https://search.mapzen.com/v1/autocomplete';
+  var search_url = 'https://search.mapzen.com/v1/search';
+  var mapzen_key = "search-F2Xk0nk";
+  var full_auto_url = auto_url + "?api_key=" + mapzen_key + "&focus.point.lon=-87.63&focus.point.lat=41.88&text=";
+
+  var addr_matches_from = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("label"),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+      url: full_auto_url,
+      replace: function() {
+        var val = $("#planner-options-from").val();
+        var processed_url = full_auto_url + encodeURIComponent(val);
+        return processed_url;
+      },
+      transform: function(response) {
+        response.features.map(function(addr) {
+            addr.label = addr.properties.label;
+            return addr;
+          });
+        return response.features;
+      }
+    }
+  });
+
+  var addr_matches_dest = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("label"),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+      url: full_auto_url,
+      replace: function() {
+        var val = $("#planner-options-dest").val();
+        var processed_url = full_auto_url + encodeURIComponent(val);
+        return processed_url;
+      },
+      transform: function(response) {
+        response.features.map(function(addr) {
+            addr.label = addr.properties.label;
+            return addr;
+          });
+        return response.features;
+      }
+    }
+  });
+
+  $("#planner-options-inputgroup-from .typeahead").typeahead({
+    highlight: true,
+       minLength: 3
+     },
+     {
+       name: 'addresses',
+       display: 'label',
+       source: addr_matches_from
+   });
+
+   $("#planner-options-inputgroup-dest .typeahead").typeahead({
+     highlight: true,
+        minLength: 3
+      },
+      {
+        name: 'addresses',
+        display: 'label',
+        source: addr_matches_dest
     });
-    $( "#planner-options-via" ).autocomplete({
-        autoFocus: true,
-        minLength: 3,
-        //appendTo: "#planner-options-via-autocompletecontainer",
-        messages : Locale.autocompleteMessages,
-        source: geocoder,
-        search: function( event, ui ) {
-            $( "#planner-options-from-latlng" ).val( "" );
-        },
-        focus: function( event, ui ) {
-            //$( "#planner-options-via" ).val( ui.item.label );
-            //$( "#planner-options-via-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        select: function( event, ui ) {
-            $( "#planner-options-via" ).val( ui.item.label );
-            $( "#planner-options-via-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        response: function( event, ui ) {
-           if ( ui.content.length === 1 &&
-                ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-via" ).val().toLowerCase() ) === 0 ) {
-              $( "#planner-options-via" ).val( ui.content[0].label );
-              $( "#planner-options-via-latlng" ).val( ui.content[0].latlng );
-           }
-        }
-    });
-    $( "#planner-options-dest" ).autocomplete({
-        autoFocus: true,
-        minLength: 3,
-        //appendTo: "#planner-options-dest-autocompletecontainer",
-        messages : Locale.autocompleteMessages,
-        source: geocoder,
-        search: function( event, ui ) {
-            $( "#planner-options-dest-latlng" ).val( "" );
-        },
-        focus: function( event, ui ) {
-            //$( "#planner-options-dest" ).val( ui.item.label );
-            //$( "#planner-options-dest-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        select: function( event, ui ) {
-            $( "#planner-options-dest" ).val( ui.item.label );
-            $( "#planner-options-dest-latlng" ).val( ui.item.latlng );
-            return false;
-        },
-        response: function( event, ui ) {
-           if ( ui.content.length === 1 &&
-                ui.content[0].label.toLowerCase().indexOf( $( "#planner-options-dest" ).val().toLowerCase() ) === 0 ) {
-              $( "#planner-options-dest" ).val( ui.content[0].label );
-              $( "#planner-options-dest-latlng" ).val( ui.content[0].latlng );
-           }
-        }
-    });
+
+
+  $('#planner-options-inputgroup-from .typeahead').bind('typeahead:select', function(e, data) {
+    $("#planner-options-from").val(data.label);
+    var latlng = data.geometry.coordinates[1] + "," + data.geometry.coordinates[0];
+    $("#planner-options-from-latlng").val(latlng);
+  });
+
+  $('#planner-options-inputgroup-dest .typeahead').bind('typeahead:select', function(e, data) {
+    $("#planner-options-dest").val(data.label);
+    var latlng = data.geometry.coordinates[1] + "," + data.geometry.coordinates[0];
+    $("#planner-options-dest-latlng").val(latlng);
+  });
+
+  // To fix display issues
+  $("span.twitter-typeahead").css("display", "flex");
 }
 
 function switchLocale() {
