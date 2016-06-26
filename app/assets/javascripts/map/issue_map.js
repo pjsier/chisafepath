@@ -43,7 +43,6 @@ function handleGeo(geo_resp) {
     },
     // add styling
     onEachFeature: function (feature, layer) {
-      //maybe add image later
       var popup_content = "<b>Created:</b> " + feature.properties.create_time + "<br>" +
                           "<b>Updated:</b> " + feature.properties.update_time + "<br>" +
                           "<b>Status:</b> " + feature.properties.status;
@@ -60,7 +59,6 @@ function handleGeo(geo_resp) {
       layer.bindPopup(popup_content);
     }
   });
-  //all_markers.addLayer(gjLayer);
   return gjLayer;
 }
 
@@ -70,8 +68,6 @@ function loadMarkerCluster() {
     url: '/all_issues',
     dataType: "json",
     success: function (response) {
-      //console.log(response);
-      //map.setView(new L.LatLng(coordinates[1], coordinates[0]), 14);
       map.setView(center, 12);
       group_markers.addLayer(handleGeo(response));
       map.addLayer(group_markers);
@@ -86,28 +82,6 @@ function loadMarkerCluster() {
 loadMarkerCluster();
 
 geocoder.on('select', function (e) {
-  // clear existing layers from previous searches (if any)
-  //all_markers.clearLayers();
   var coordinates = e.feature.geometry.coordinates;
-  map.setView(new L.LatLng(coordinates[1], coordinates[0]), 14);
-  //console.log(coordinates);
-  /*var query_obj = {
-    coords: coordinates
-  };*/
-  /*
-  $.ajax({
-    type: "POST",
-    url: '/map_query',
-    data: JSON.stringify(query_obj),
-    dataType: "json",
-    success: function (response) {
-      console.log(response);
-      map.setView(new L.LatLng(coordinates[1], coordinates[0]), 14);
-      all_markers.addLayer(handleGeo(response));
-    },
-    error: function (e) {
-      console.log(e);
-    },
-    contentType: 'application/json'
-  });*/
+  map.setView(new L.LatLng(coordinates[1], coordinates[0]), 17);
 });
