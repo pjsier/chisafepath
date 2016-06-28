@@ -16,4 +16,5 @@
 //= require turbolinks
 //= require leaflet
 //= require twitter/typeahead.min
-//= require_tree ./lib
+//= require lib/leaflet-geocoder-mapzen
+//= require lib/leaflet.markercluster
