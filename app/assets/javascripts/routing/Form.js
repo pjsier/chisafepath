@@ -744,6 +744,8 @@ function setupAutoComplete(){
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
       url: full_auto_url,
+      rateLimitBy: "throttle",
+      rateLimitWait: 1000,
       replace: function() {
         var val = $("#planner-options-from").val();
         var processed_url = full_auto_url + encodeURIComponent(val);
@@ -764,6 +766,8 @@ function setupAutoComplete(){
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
       url: full_auto_url,
+      rateLimitBy: "throttle",
+      rateLimitWait: 1000,
       replace: function() {
         var val = $("#planner-options-dest").val();
         var processed_url = full_auto_url + encodeURIComponent(val);

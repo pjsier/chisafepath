@@ -9,6 +9,7 @@
 
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "ga" if Rails.env.production? %>
   </head>
   <body>
     <nav class='navbar navbar-default'>

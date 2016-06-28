@@ -24,6 +24,7 @@
     %title Chi Safe Path
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
+    = javascript_include_tag "ga" if Rails.env.production?
   %body
     %nav{ class: "navbar navbar-default"}
       .container-fluid
