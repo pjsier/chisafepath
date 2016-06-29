@@ -1,11 +1,10 @@
 class IssueController < ApplicationController
   def api_submit
-    # if Rails.env.production?
-    #   uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests")
-    # else
-    #   uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
-    # end
-    uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
+    if Rails.env.production?
+      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests")
+    else
+      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
+    end
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri)
