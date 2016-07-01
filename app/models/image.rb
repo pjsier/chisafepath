@@ -5,4 +5,11 @@ class Image < ActiveRecord::Base
       s3.delete_object(bucket: 'chisafepath', key: self.image_url[37..-1])
     end
   end
+
+  def self.create_from_upload(img)
+    uploader = IssuepicUploader.new
+    uploader.store!(img)
+    img_upload = Image.create!(:url => uploader.url)
+    img_upload
+  end
 end

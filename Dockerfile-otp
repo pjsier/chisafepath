@@ -11,7 +11,7 @@ RUN \
 
 WORKDIR /var/otp
 
-RUN git checkout -b graph-updater-311 && git pull origin graph-updater-311
+RUN git checkout graph-updater-311
 RUN mvn package && mv /var/otp/target/otp-0.20.0-SNAPSHOT-shaded.jar /var/otp/otp.jar
 
 ENV OTP_BASE /var/otp

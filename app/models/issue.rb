@@ -29,8 +29,8 @@ class Issue < ActiveRecord::Base
   		}
   	}
 
-    geojson_issue.merge!(image_url: self.media_url) unless self.media_url.blank?
-    geojson_issue.merge!(description: self.description) unless self.description.blank?
+    geojson_issue[:properties].merge!(image_url: self.media_url) unless self.media_url.blank?
+    geojson_issue[:properties].merge!(description: self.description) unless self.description.blank?
 
     geojson_issue
   end
