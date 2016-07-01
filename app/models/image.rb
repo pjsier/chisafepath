@@ -6,7 +6,7 @@ class Image < ActiveRecord::Base
     end
   end
 
-  def create_from_upload(img)
+  def self.create_from_upload(img)
     uploader = IssuepicUploader.new
     uploader.store!(img)
     img_upload = Image.create!(:url => uploader.url)
