@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HomeController, :type => :controller do
+describe HomeController do
   describe "#index" do
     it "shows the main page" do
       get :index

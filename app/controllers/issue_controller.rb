@@ -1,10 +1,10 @@
 class IssueController < ApplicationController
   def api_submit
     if Rails.env.production?
-      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests")
+      uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests.json")
       api_key = ENV["CHI_311_KEY"]
     else
-      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
+      uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests.json")
       api_key = ENV["TEST_311_KEY"]
     end
 
@@ -37,12 +37,12 @@ class IssueController < ApplicationController
     response = http.request(request)
 
     begin
-      response_json = JSON.parse(response)
-      if response_json[:token].blank?
+      response_json = JSON.parse(response.body)
+      if response_json[0]["token"]
+        redirect_to submitted_path
+      else
         flash[:error] = "There was an error submitting your issue"
         render "home/issue"
-      else
-        redirect_to submitted_path
       end
     rescue Exception
       flash[:error] = "There was an error submitting your issue"

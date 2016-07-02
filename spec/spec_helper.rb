@@ -43,6 +43,12 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  # config.before(:each) do
+  #   stub_request(:get, /cityofchicago.org/).
+  #     with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).
+  #     to_return(status: 200, body: "stubbed response", headers: {})
+  # end
+
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
 =begin
