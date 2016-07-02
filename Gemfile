@@ -24,6 +24,8 @@ gem 'aws-sdk'
 gem 'therubyracer'
 gem 'sass-rails'
 gem 'newrelic_rpm'
+gem "webmock"
+gem "rspec-rails"
 
 group :development, :test do
   gem 'byebug'

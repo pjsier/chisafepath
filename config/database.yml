@@ -18,3 +18,14 @@ production:
   password: <%= ENV['PASSWORD'] %>
   host: <%= ENV['IP'] %>
   min_messages: WARNING
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: chisafepath_test
+  pool: 5
+  username: chisafepath
+  password:
+  min_messages: WARNING
+  host: localhost
+  port: 5432
