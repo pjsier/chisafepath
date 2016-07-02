@@ -2,15 +2,17 @@ class IssueController < ApplicationController
   def api_submit
     if Rails.env.production?
       uri = URI.parse("http://311api.cityofchicago.org/open311/v2/requests")
+      api_key = ENV["CHI_311_KEY"]
     else
       uri = URI.parse("http://test311api.cityofchicago.org/open311/v2/requests")
+      api_key = ENV["TEST_311_KEY"]
     end
 
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Post.new(uri)
 
     api_data = {
-      :api_key => ENV["CHI_311_KEY"],
+      :api_key => api_key,
       :service_code => "4ffa971e6018277d4000000b",
       :lat => issue_params[:lat],
       :long => issue_params[:lon],
@@ -34,7 +36,18 @@ class IssueController < ApplicationController
 
     response = http.request(request)
 
-    redirect_to submitted_path
+    begin
+      response_json = JSON.parse(response)
+      if response_json[:token].blank?
+        flash[:error] = "There was an error submitting your issue"
+        render "home/issue"
+      else
+        redirect_to submitted_path
+      end
+    rescue Exception
+      flash[:error] = "There was an error submitting your issue"
+      render "home/issue"
+    end
   end
 
   def index
@@ -46,17 +59,22 @@ class IssueController < ApplicationController
       type: "FeatureCollection",
       features: []
     }
-    # factory = RGeo::GeoJSON::EntityFactory.instance
     geojson_issues[:features] = open_issues.map{ |i| i.to_geojson }
-    #geoj = RGeo::GeoJSON.encode(factory.feature_collection(geo_issues))
     render json: geojson_issues
   end
 
   private
   def issue_params
-    params.require(:issue).permit(:service_request_id, :status, :status_notes,
-                                  :requested_datetime, :updated_datetime,
-                                  :description, :media_url, :address, :lat, :lon,
+    params.require(:issue).permit(:service_request_id,
+                                  :status,
+                                  :status_notes,
+                                  :requested_datetime,
+                                  :updated_datetime,
+                                  :description,
+                                  :media_url,
+                                  :address,
+                                  :lat,
+                                  :lon,
                                   :issuepic)
   end
 

@@ -136,6 +136,11 @@ input {
   margin-top: 15px;
 }
 
+.warning {
+  font-weight: bold;
+  color: red;
+}
+
 /* ROUTING */
 
 #routing-container {

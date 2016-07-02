@@ -31,7 +31,7 @@ $('form').submit(function(e) {
   submit_span.innerHTML = "<img height='30px' src='<%= asset_path('rolling.gif') %>' />";
   if (document.getElementById("issue_lat").value === "") {
     e.preventDefault();
-    submit_span.innerHTML = "<b style='color:red'>Please provide a location</b>";
+    submit_span.innerHTML = "Please provide a location";
   }
 });
 

@@ -24,6 +24,9 @@
           .form-group
             %h3 Categories
             = f.select :description, ["Sidewalk hazard", "Sidewalk broken", "No curb cut", "Unusable due to construction"], {}, {:class => "form-control"}
+          - if flash[:error]
+            %p.warning
+              = flash[:error]
           = f.submit "Submit", :class => "btn btn-default"
-          %span#submit-warn
+          %span#submit-warn.warning
 = javascript_include_tag "issue"
