@@ -6,4 +6,5 @@ CarrierWave.configure do |config|
     region: ENV["S3_REGION"]
   }
   config.fog_directory  = 'chisafepath'
+  config.enable_processing = false if Rails.env.test?
 end

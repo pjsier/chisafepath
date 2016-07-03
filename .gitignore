@@ -30,6 +30,7 @@ dump.rdb
 
 .env
 env.sh
+spec/fixtures/fog.yml
 
 # Ignore application configuration
 /config/application.yml

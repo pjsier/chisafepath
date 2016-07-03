@@ -26,6 +26,7 @@ gem 'sass-rails'
 gem 'newrelic_rpm'
 gem "webmock"
 gem "rspec-rails"
+gem "database_cleaner"
 
 group :development, :test do
   gem 'byebug'
