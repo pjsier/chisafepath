@@ -37,11 +37,6 @@ describe IssueController do
       expect(response).to render_template(:issue)
     end
 
-    # REQUIRES A FILE IN spec/fixtures/fog.yml FOLLOWING THIS FORMAT:
-    # default:
-    #   aws_access_key_id: XXXX
-    #   aws_secret_access_key: XXXX
-    #   region: XXXX
     it "submits images in api" do
       stub_request(:post, /cityofchicago.org/).
         with(headers: {'Accept'=>'*/*', 'User-Agent'=>'Ruby'}).

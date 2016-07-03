@@ -10,13 +10,12 @@ require 'database_cleaner'
 ActiveRecord::Migration.maintain_test_schema!
 
 Fog.mock!
-# Tests involving images require a file in the following path with this format:
-# default:
-#   aws_access_key_id: XXXX
-#   aws_secret_access_key: XXXX
-#   region: XXXX
-Fog.credentials_path = Rails.root.join('spec/fixtures/fog.yml')
-connection = Fog::Storage.new(:provider => 'AWS')
+connection = Fog::Storage.new({
+  :aws_access_key_id      => ENV["AWS_ACCESS_KEY_ID"],
+  :aws_secret_access_key  => ENV["AWS_SECRET_ACCESS_KEY"],
+  :region                 => ENV["S3_REGION"],
+  :provider               => 'AWS'
+})
 connection.directories.create(:key => 'chisafepath')
 
 RSpec.configure do |config|
