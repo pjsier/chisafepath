@@ -13,4 +13,6 @@ env:
 bundler_args: "--without production"
 before_script:
   - psql -c "CREATE USER chisafepath WITH CREATEDB;" -U postgres
+  - rake db:create
+  - rake db:schema:load
 script: bundle exec rspec spec
