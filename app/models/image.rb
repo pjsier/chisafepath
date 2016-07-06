@@ -1,9 +1,12 @@
 class Image < ActiveRecord::Base
   def remove_aws_img
-    if self.url.starts_with("https://chisafepath")
-      s3 = Aws::S3::Client.new
-      s3.delete_object(bucket: 'chisafepath', key: self.image_url[37..-1])
-    end
+    s3 = Aws::S3::Client.new(
+      region: ENV["S3_REGION"],
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"]
+    )
+    s3.delete_object({bucket: 'chisafepath', key: self.url[37..-1]})
+    self.destroy
   end
 
   def self.create_from_upload(img)
